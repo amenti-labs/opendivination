@@ -59,3 +59,22 @@ def test_rejection_sample_weighted_invalid_weights() -> None:
 def test_rejection_sample_entropy_exhausted() -> None:
     with pytest.raises(EntropyExhaustedError):
         rejection_sample(bytes([255]), 10)
+
+
+def test_rejection_sample_78_uniformity() -> None:
+    counts: Counter[int] = Counter()
+    samples = 50000
+    entropy_buffer = urandom(500000)
+    offset = 0
+
+    for _ in range(samples):
+        if offset + 1 > len(entropy_buffer):
+            entropy_buffer = urandom(500000)
+            offset = 0
+        index, consumed = rejection_sample(entropy_buffer[offset:], 78)
+        offset += consumed
+        counts[index] += 1
+
+    expected = samples / 78
+    chi_square = sum((counts[i] - expected) ** 2 / expected for i in range(78))
+    assert chi_square < 170.0
