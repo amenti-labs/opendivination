@@ -153,12 +153,6 @@ The rejection sampling step is important. Naive modulo bias would skew results w
 
 ---
 
-## Research Layer
-
-OpenDivine includes an experimental research module for studying entropy patterns across draws. The methodology follows Global Consciousness Project conventions: pre-registered hypotheses, blind analysis, effect size reporting. This layer is separate from the oracle functionality and is not required for normal use. If you're interested in contributing to the research side, see the `experiments/` directory and the research notes in `docs/research/`.
-
----
-
 ## Contributing
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for development setup, code style, and the PR process.
