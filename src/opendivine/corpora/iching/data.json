@@ -1,0 +1,642 @@
+[
+  {
+    "number": 1,
+    "name": "The Creative",
+    "pinyin": "Qian",
+    "character": "乾",
+    "upper_trigram": "Qian",
+    "lower_trigram": "Qian",
+    "judgment": "Supreme success through persistence. The creative force initiates all things.",
+    "image_file": "hexagram_01.svg"
+  },
+  {
+    "number": 2,
+    "name": "The Receptive",
+    "pinyin": "Kun",
+    "character": "坤",
+    "upper_trigram": "Kun",
+    "lower_trigram": "Kun",
+    "judgment": "Receptive devotion brings fulfillment. Follow rather than lead.",
+    "image_file": "hexagram_02.svg"
+  },
+  {
+    "number": 3,
+    "name": "Difficulty at the Beginning",
+    "pinyin": "Zhun",
+    "character": "屯",
+    "upper_trigram": "Kan",
+    "lower_trigram": "Zhen",
+    "judgment": "Difficulty at the start requires patience. Gather helpers before advancing.",
+    "image_file": "hexagram_03.svg"
+  },
+  {
+    "number": 4,
+    "name": "Youthful Folly",
+    "pinyin": "Meng",
+    "character": "蒙",
+    "upper_trigram": "Gen",
+    "lower_trigram": "Kan",
+    "judgment": "Youth learns through experience. Seek guidance with sincerity.",
+    "image_file": "hexagram_04.svg"
+  },
+  {
+    "number": 5,
+    "name": "Waiting",
+    "pinyin": "Xu",
+    "character": "需",
+    "upper_trigram": "Kan",
+    "lower_trigram": "Qian",
+    "judgment": "Waiting with patience and trust. Nourishment comes in due time.",
+    "image_file": "hexagram_05.svg"
+  },
+  {
+    "number": 6,
+    "name": "Conflict",
+    "pinyin": "Song",
+    "character": "訟",
+    "upper_trigram": "Qian",
+    "lower_trigram": "Kan",
+    "judgment": "Conflict arises from opposing forces. Seek mediation, avoid extremes.",
+    "image_file": "hexagram_06.svg"
+  },
+  {
+    "number": 7,
+    "name": "The Army",
+    "pinyin": "Shi",
+    "character": "師",
+    "upper_trigram": "Kun",
+    "lower_trigram": "Kan",
+    "judgment": "The army requires discipline and righteous leadership. Organization brings order.",
+    "image_file": "hexagram_07.svg"
+  },
+  {
+    "number": 8,
+    "name": "Holding Together",
+    "pinyin": "Bi",
+    "character": "比",
+    "upper_trigram": "Kan",
+    "lower_trigram": "Kun",
+    "judgment": "Unity through mutual support. Examine your alliances carefully.",
+    "image_file": "hexagram_08.svg"
+  },
+  {
+    "number": 9,
+    "name": "Small Taming",
+    "pinyin": "Xiao Xu",
+    "character": "小畜",
+    "upper_trigram": "Xun",
+    "lower_trigram": "Qian",
+    "judgment": "Small restraint accumulates power. Gentle persistence overcomes obstacles.",
+    "image_file": "hexagram_09.svg"
+  },
+  {
+    "number": 10,
+    "name": "Treading",
+    "pinyin": "Lu",
+    "character": "履",
+    "upper_trigram": "Qian",
+    "lower_trigram": "Dui",
+    "judgment": "Tread carefully, even upon a tiger's tail. Propriety ensures safety.",
+    "image_file": "hexagram_10.svg"
+  },
+  {
+    "number": 11,
+    "name": "Peace",
+    "pinyin": "Tai",
+    "character": "泰",
+    "upper_trigram": "Kun",
+    "lower_trigram": "Qian",
+    "judgment": "Heaven and earth unite in harmony. A time of peace and prosperity.",
+    "image_file": "hexagram_11.svg"
+  },
+  {
+    "number": 12,
+    "name": "Standstill",
+    "pinyin": "Pi",
+    "character": "否",
+    "upper_trigram": "Qian",
+    "lower_trigram": "Kun",
+    "judgment": "Stagnation as heaven and earth separate. Withdraw and cultivate inner worth.",
+    "image_file": "hexagram_12.svg"
+  },
+  {
+    "number": 13,
+    "name": "Fellowship",
+    "pinyin": "Tong Ren",
+    "character": "同人",
+    "upper_trigram": "Qian",
+    "lower_trigram": "Li",
+    "judgment": "Fellowship with others in the open. Shared purpose overcomes division.",
+    "image_file": "hexagram_13.svg"
+  },
+  {
+    "number": 14,
+    "name": "Great Possession",
+    "pinyin": "Da You",
+    "character": "大有",
+    "upper_trigram": "Li",
+    "lower_trigram": "Qian",
+    "judgment": "Great abundance through virtue. Manage wealth with humility.",
+    "image_file": "hexagram_14.svg"
+  },
+  {
+    "number": 15,
+    "name": "Modesty",
+    "pinyin": "Qian",
+    "character": "謙",
+    "upper_trigram": "Kun",
+    "lower_trigram": "Gen",
+    "judgment": "Modesty creates balance and completion. The humble are elevated.",
+    "image_file": "hexagram_15.svg"
+  },
+  {
+    "number": 16,
+    "name": "Enthusiasm",
+    "pinyin": "Yu",
+    "character": "豫",
+    "upper_trigram": "Zhen",
+    "lower_trigram": "Kun",
+    "judgment": "Enthusiasm inspires action. Move with the energy of thunder.",
+    "image_file": "hexagram_16.svg"
+  },
+  {
+    "number": 17,
+    "name": "Following",
+    "pinyin": "Sui",
+    "character": "隨",
+    "upper_trigram": "Dui",
+    "lower_trigram": "Zhen",
+    "judgment": "Following the flow of the time. Adapt without losing integrity.",
+    "image_file": "hexagram_17.svg"
+  },
+  {
+    "number": 18,
+    "name": "Work on the Decayed",
+    "pinyin": "Gu",
+    "character": "蟲",
+    "upper_trigram": "Gen",
+    "lower_trigram": "Xun",
+    "judgment": "Decay must be addressed with care. Reform what has been corrupted.",
+    "image_file": "hexagram_18.svg"
+  },
+  {
+    "number": 19,
+    "name": "Approach",
+    "pinyin": "Lin",
+    "character": "臨",
+    "upper_trigram": "Kun",
+    "lower_trigram": "Dui",
+    "judgment": "Approach with generosity. A time of increasing influence.",
+    "image_file": "hexagram_19.svg"
+  },
+  {
+    "number": 20,
+    "name": "Contemplation",
+    "pinyin": "Guan",
+    "character": "觀",
+    "upper_trigram": "Xun",
+    "lower_trigram": "Kun",
+    "judgment": "Contemplation reveals truth. Observe with clarity and sincerity.",
+    "image_file": "hexagram_20.svg"
+  },
+  {
+    "number": 21,
+    "name": "Biting Through",
+    "pinyin": "Shi He",
+    "character": "噤嗑",
+    "upper_trigram": "Li",
+    "lower_trigram": "Zhen",
+    "judgment": "Biting through obstacles restores order. Decisive action removes what divides.",
+    "image_file": "hexagram_21.svg"
+  },
+  {
+    "number": 22,
+    "name": "Grace",
+    "pinyin": "Bi",
+    "character": "賁",
+    "upper_trigram": "Gen",
+    "lower_trigram": "Li",
+    "judgment": "Grace adorns but substance endures. Beauty serves clarity of form.",
+    "image_file": "hexagram_22.svg"
+  },
+  {
+    "number": 23,
+    "name": "Splitting Apart",
+    "pinyin": "Bo",
+    "character": "剝",
+    "upper_trigram": "Gen",
+    "lower_trigram": "Kun",
+    "judgment": "Splitting apart as foundations erode. Accept decline and await renewal.",
+    "image_file": "hexagram_23.svg"
+  },
+  {
+    "number": 24,
+    "name": "Return",
+    "pinyin": "Fu",
+    "character": "復",
+    "upper_trigram": "Kun",
+    "lower_trigram": "Zhen",
+    "judgment": "Return of the light after darkness. The turning point arrives naturally.",
+    "image_file": "hexagram_24.svg"
+  },
+  {
+    "number": 25,
+    "name": "Innocence",
+    "pinyin": "Wu Wang",
+    "character": "無妄",
+    "upper_trigram": "Qian",
+    "lower_trigram": "Zhen",
+    "judgment": "Innocence and spontaneity bring good fortune. Act without ulterior motive.",
+    "image_file": "hexagram_25.svg"
+  },
+  {
+    "number": 26,
+    "name": "Great Taming",
+    "pinyin": "Da Xu",
+    "character": "大畜",
+    "upper_trigram": "Gen",
+    "lower_trigram": "Qian",
+    "judgment": "Great accumulation of wisdom and power. Restraint builds strength.",
+    "image_file": "hexagram_26.svg"
+  },
+  {
+    "number": 27,
+    "name": "Nourishment",
+    "pinyin": "Yi",
+    "character": "頤",
+    "upper_trigram": "Gen",
+    "lower_trigram": "Zhen",
+    "judgment": "Nourishment of body and mind. Choose carefully what you take in.",
+    "image_file": "hexagram_27.svg"
+  },
+  {
+    "number": 28,
+    "name": "Great Excess",
+    "pinyin": "Da Guo",
+    "character": "大過",
+    "upper_trigram": "Dui",
+    "lower_trigram": "Xun",
+    "judgment": "Excess weight bends the beam. Extraordinary times require extraordinary measures.",
+    "image_file": "hexagram_28.svg"
+  },
+  {
+    "number": 29,
+    "name": "The Abysmal",
+    "pinyin": "Kan",
+    "character": "坎",
+    "upper_trigram": "Kan",
+    "lower_trigram": "Kan",
+    "judgment": "Danger doubled demands sincerity of heart. Flow through peril like water.",
+    "image_file": "hexagram_29.svg"
+  },
+  {
+    "number": 30,
+    "name": "The Clinging",
+    "pinyin": "Li",
+    "character": "離",
+    "upper_trigram": "Li",
+    "lower_trigram": "Li",
+    "judgment": "Clinging to what gives light. Clarity through gentle attachment.",
+    "image_file": "hexagram_30.svg"
+  },
+  {
+    "number": 31,
+    "name": "Influence",
+    "pinyin": "Xian",
+    "character": "咸",
+    "upper_trigram": "Dui",
+    "lower_trigram": "Gen",
+    "judgment": "Mutual attraction and influence. Openness of heart invites connection.",
+    "image_file": "hexagram_31.svg"
+  },
+  {
+    "number": 32,
+    "name": "Duration",
+    "pinyin": "Heng",
+    "character": "恆",
+    "upper_trigram": "Zhen",
+    "lower_trigram": "Xun",
+    "judgment": "Endurance through constancy. Duration comes from inner steadfastness.",
+    "image_file": "hexagram_32.svg"
+  },
+  {
+    "number": 33,
+    "name": "Retreat",
+    "pinyin": "Dun",
+    "character": "遯",
+    "upper_trigram": "Qian",
+    "lower_trigram": "Gen",
+    "judgment": "Strategic retreat preserves strength. Withdraw at the right moment.",
+    "image_file": "hexagram_33.svg"
+  },
+  {
+    "number": 34,
+    "name": "Great Power",
+    "pinyin": "Da Zhuang",
+    "character": "大壯",
+    "upper_trigram": "Zhen",
+    "lower_trigram": "Qian",
+    "judgment": "Great power must be used with righteousness. Strength without virtue brings misfortune.",
+    "image_file": "hexagram_34.svg"
+  },
+  {
+    "number": 35,
+    "name": "Progress",
+    "pinyin": "Jin",
+    "character": "晉",
+    "upper_trigram": "Li",
+    "lower_trigram": "Kun",
+    "judgment": "Progress like the sun rising. Advance with clarity and purpose.",
+    "image_file": "hexagram_35.svg"
+  },
+  {
+    "number": 36,
+    "name": "Darkening of the Light",
+    "pinyin": "Ming Yi",
+    "character": "明夷",
+    "upper_trigram": "Kun",
+    "lower_trigram": "Li",
+    "judgment": "The light is hidden. Protect your inner clarity during dark times.",
+    "image_file": "hexagram_36.svg"
+  },
+  {
+    "number": 37,
+    "name": "The Family",
+    "pinyin": "Jia Ren",
+    "character": "家人",
+    "upper_trigram": "Xun",
+    "lower_trigram": "Li",
+    "judgment": "The family prospers through proper roles. Inner harmony radiates outward.",
+    "image_file": "hexagram_37.svg"
+  },
+  {
+    "number": 38,
+    "name": "Opposition",
+    "pinyin": "Kui",
+    "character": "睽",
+    "upper_trigram": "Li",
+    "lower_trigram": "Dui",
+    "judgment": "Opposition and estrangement in small matters. Find unity within diversity.",
+    "image_file": "hexagram_38.svg"
+  },
+  {
+    "number": 39,
+    "name": "Obstruction",
+    "pinyin": "Jian",
+    "character": "蹇",
+    "upper_trigram": "Kan",
+    "lower_trigram": "Gen",
+    "judgment": "Obstruction ahead; do not advance blindly. Reflect and seek wise counsel.",
+    "image_file": "hexagram_39.svg"
+  },
+  {
+    "number": 40,
+    "name": "Deliverance",
+    "pinyin": "Jie",
+    "character": "解",
+    "upper_trigram": "Zhen",
+    "lower_trigram": "Kan",
+    "judgment": "Deliverance from tension. Release what has been bound and move forward.",
+    "image_file": "hexagram_40.svg"
+  },
+  {
+    "number": 41,
+    "name": "Decrease",
+    "pinyin": "Sun",
+    "character": "損",
+    "upper_trigram": "Gen",
+    "lower_trigram": "Dui",
+    "judgment": "Decrease below enriches above. Sincere sacrifice brings eventual gain.",
+    "image_file": "hexagram_41.svg"
+  },
+  {
+    "number": 42,
+    "name": "Increase",
+    "pinyin": "Yi",
+    "character": "益",
+    "upper_trigram": "Xun",
+    "lower_trigram": "Zhen",
+    "judgment": "Increase flows from above to below. A time to undertake great works.",
+    "image_file": "hexagram_42.svg"
+  },
+  {
+    "number": 43,
+    "name": "Breakthrough",
+    "pinyin": "Guai",
+    "character": "夬",
+    "upper_trigram": "Dui",
+    "lower_trigram": "Qian",
+    "judgment": "Breakthrough requires resolute action. Proclaim the truth openly.",
+    "image_file": "hexagram_43.svg"
+  },
+  {
+    "number": 44,
+    "name": "Coming to Meet",
+    "pinyin": "Gou",
+    "character": "姤",
+    "upper_trigram": "Qian",
+    "lower_trigram": "Xun",
+    "judgment": "An unexpected meeting; be watchful. What seems small may grow powerful.",
+    "image_file": "hexagram_44.svg"
+  },
+  {
+    "number": 45,
+    "name": "Gathering Together",
+    "pinyin": "Cui",
+    "character": "萃",
+    "upper_trigram": "Dui",
+    "lower_trigram": "Kun",
+    "judgment": "Gathering together under righteous leadership. Unity requires a worthy center.",
+    "image_file": "hexagram_45.svg"
+  },
+  {
+    "number": 46,
+    "name": "Pushing Upward",
+    "pinyin": "Sheng",
+    "character": "升",
+    "upper_trigram": "Kun",
+    "lower_trigram": "Xun",
+    "judgment": "Pushing upward with effort and devotion. Growth requires steady persistence.",
+    "image_file": "hexagram_46.svg"
+  },
+  {
+    "number": 47,
+    "name": "Oppression",
+    "pinyin": "Kun",
+    "character": "困",
+    "upper_trigram": "Dui",
+    "lower_trigram": "Kan",
+    "judgment": "Exhaustion tests the spirit. Maintain your word even in adversity.",
+    "image_file": "hexagram_47.svg"
+  },
+  {
+    "number": 48,
+    "name": "The Well",
+    "pinyin": "Jing",
+    "character": "井",
+    "upper_trigram": "Kan",
+    "lower_trigram": "Xun",
+    "judgment": "The well nourishes all without exhaustion. Draw upon deep, reliable sources.",
+    "image_file": "hexagram_48.svg"
+  },
+  {
+    "number": 49,
+    "name": "Revolution",
+    "pinyin": "Ge",
+    "character": "革",
+    "upper_trigram": "Dui",
+    "lower_trigram": "Li",
+    "judgment": "Revolution comes when the time is ripe. Transform what no longer serves.",
+    "image_file": "hexagram_49.svg"
+  },
+  {
+    "number": 50,
+    "name": "The Cauldron",
+    "pinyin": "Ding",
+    "character": "鼎",
+    "upper_trigram": "Li",
+    "lower_trigram": "Xun",
+    "judgment": "The cauldron transforms the raw into the refined. Nourish the worthy.",
+    "image_file": "hexagram_50.svg"
+  },
+  {
+    "number": 51,
+    "name": "The Arousing",
+    "pinyin": "Zhen",
+    "character": "震",
+    "upper_trigram": "Zhen",
+    "lower_trigram": "Zhen",
+    "judgment": "Thunder shocks and awakens. After the shock comes laughter and renewal.",
+    "image_file": "hexagram_51.svg"
+  },
+  {
+    "number": 52,
+    "name": "Keeping Still",
+    "pinyin": "Gen",
+    "character": "艮",
+    "upper_trigram": "Gen",
+    "lower_trigram": "Gen",
+    "judgment": "Stillness of the mountain. Quiet the mind to find right action.",
+    "image_file": "hexagram_52.svg"
+  },
+  {
+    "number": 53,
+    "name": "Development",
+    "pinyin": "Jian",
+    "character": "漸",
+    "upper_trigram": "Xun",
+    "lower_trigram": "Gen",
+    "judgment": "Development proceeds gradually, like a tree on a mountain. Patient growth endures.",
+    "image_file": "hexagram_53.svg"
+  },
+  {
+    "number": 54,
+    "name": "The Marrying Maiden",
+    "pinyin": "Gui Mei",
+    "character": "歸妹",
+    "upper_trigram": "Zhen",
+    "lower_trigram": "Dui",
+    "judgment": "The marrying maiden adapts to her position. Accept limitations with grace.",
+    "image_file": "hexagram_54.svg"
+  },
+  {
+    "number": 55,
+    "name": "Abundance",
+    "pinyin": "Feng",
+    "character": "豐",
+    "upper_trigram": "Zhen",
+    "lower_trigram": "Li",
+    "judgment": "Abundance at its peak. Appreciate fullness without clinging to it.",
+    "image_file": "hexagram_55.svg"
+  },
+  {
+    "number": 56,
+    "name": "The Wanderer",
+    "pinyin": "Lu",
+    "character": "旅",
+    "upper_trigram": "Li",
+    "lower_trigram": "Gen",
+    "judgment": "The wanderer finds safety through caution and modesty. Travel light.",
+    "image_file": "hexagram_56.svg"
+  },
+  {
+    "number": 57,
+    "name": "The Gentle",
+    "pinyin": "Xun",
+    "character": "巽",
+    "upper_trigram": "Xun",
+    "lower_trigram": "Xun",
+    "judgment": "Gentle penetration achieves what force cannot. Persistence of wind wears stone.",
+    "image_file": "hexagram_57.svg"
+  },
+  {
+    "number": 58,
+    "name": "The Joyous",
+    "pinyin": "Dui",
+    "character": "兌",
+    "upper_trigram": "Dui",
+    "lower_trigram": "Dui",
+    "judgment": "Joy shared doubles happiness. True delight comes from inner sincerity.",
+    "image_file": "hexagram_58.svg"
+  },
+  {
+    "number": 59,
+    "name": "Dispersion",
+    "pinyin": "Huan",
+    "character": "渙",
+    "upper_trigram": "Xun",
+    "lower_trigram": "Kan",
+    "judgment": "Dispersion dissolves barriers. Wind over water scatters what has hardened.",
+    "image_file": "hexagram_59.svg"
+  },
+  {
+    "number": 60,
+    "name": "Limitation",
+    "pinyin": "Jie",
+    "character": "節",
+    "upper_trigram": "Kan",
+    "lower_trigram": "Dui",
+    "judgment": "Limitation creates structure. Accept boundaries as the framework for freedom.",
+    "image_file": "hexagram_60.svg"
+  },
+  {
+    "number": 61,
+    "name": "Inner Truth",
+    "pinyin": "Zhong Fu",
+    "character": "中孚",
+    "upper_trigram": "Xun",
+    "lower_trigram": "Dui",
+    "judgment": "Inner truth moves even pigs and fishes. Sincerity reaches all beings.",
+    "image_file": "hexagram_61.svg"
+  },
+  {
+    "number": 62,
+    "name": "Small Excess",
+    "pinyin": "Xiao Guo",
+    "character": "小過",
+    "upper_trigram": "Zhen",
+    "lower_trigram": "Gen",
+    "judgment": "Small excess in humble matters. Attend to details, not grand ambitions.",
+    "image_file": "hexagram_62.svg"
+  },
+  {
+    "number": 63,
+    "name": "After Completion",
+    "pinyin": "Ji Ji",
+    "character": "既濟",
+    "upper_trigram": "Kan",
+    "lower_trigram": "Li",
+    "judgment": "After completion, attend to small disorders. Success requires continued vigilance.",
+    "image_file": "hexagram_63.svg"
+  },
+  {
+    "number": 64,
+    "name": "Before Completion",
+    "pinyin": "Wei Ji",
+    "character": "未濟",
+    "upper_trigram": "Li",
+    "lower_trigram": "Kan",
+    "judgment": "Before completion, the transition is not yet finished. Caution at the threshold of success.",
+    "image_file": "hexagram_64.svg"
+  }
+]

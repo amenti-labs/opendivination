@@ -1,0 +1,10 @@
+[
+  {"name": "Qian", "character": "☰", "attribute": "Creative", "image": "Heaven", "lines": [1, 1, 1]},
+  {"name": "Kun", "character": "☷", "attribute": "Receptive", "image": "Earth", "lines": [0, 0, 0]},
+  {"name": "Zhen", "character": "☳", "attribute": "Arousing", "image": "Thunder", "lines": [1, 0, 0]},
+  {"name": "Xun", "character": "☴", "attribute": "Gentle", "image": "Wind/Wood", "lines": [0, 1, 1]},
+  {"name": "Kan", "character": "☵", "attribute": "Abysmal", "image": "Water", "lines": [0, 1, 0]},
+  {"name": "Li", "character": "☲", "attribute": "Clinging", "image": "Fire", "lines": [1, 0, 1]},
+  {"name": "Gen", "character": "☶", "attribute": "Keeping Still", "image": "Mountain", "lines": [0, 0, 1]},
+  {"name": "Dui", "character": "☱", "attribute": "Joyous", "image": "Lake", "lines": [1, 1, 0]}
+]
