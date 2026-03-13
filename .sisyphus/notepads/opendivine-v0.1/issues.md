@@ -22,3 +22,14 @@
 ### openentropy Not Installed in Dev Environment
 - `openentropy` may not be installed — T9 adapter must handle gracefully
 - Tests must pass with CSPRNG-only mode
+
+
+## [2026-03-12] F1 Plan Compliance Audit Findings
+
+- FAIL: Modulo operator present in core sampler: `src/opendivine/core/sampling.py:43` uses `value % max_value` (plan requires NEVER `value % N`).
+- FAIL: README claims a research layer and references `experiments/` + `docs/research/` (forbidden by plan; also those paths do not exist): `README.md:156`.
+- FAIL: Missing evidence files referenced by plan:
+  - `.sisyphus/evidence/task-1-subpackages.txt`
+  - `.sisyphus/evidence/task-2-types-json.txt`
+  - `.sisyphus/evidence/task-4-tarot-fields.txt`
+- NOTE: This notepad has stale items above (CLI + .github are now implemented in repo); treat earlier sections as historical.
