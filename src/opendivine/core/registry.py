@@ -62,7 +62,11 @@ class SourceRegistry:
             if not await self._is_source_available(selected_source):
                 continue
 
-            entropy = await selected_source.get_bytes(n)
+            try:
+                entropy = await selected_source.get_bytes(n)
+            except Exception:
+                continue
+
             return entropy, self._build_source_info(selected_source, available=True)
 
         raise NoSourceAvailableError("No registered entropy source is currently available")
