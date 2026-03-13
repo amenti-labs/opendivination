@@ -205,3 +205,10 @@
 - Quick Start must use `source="csprng"` so copy-paste works offline
 - Source table needs ID column (the string you pass to `source=`)
 - MCP section: show both the CLI invocation AND the config JSON
+
+## [2026-03-12] Task: Fix ruff/mypy cleanup
+- Replaced `Optional[str]` with `str | None` in `src/opendivine/cli/main.py`; keep `from __future__ import annotations` out of CLI modules because Typer inspects runtime annotations.
+- For optional `openentropy` import in `src/opendivine/sources/openentropy.py`, a line-level `# type: ignore[import-not-found]` plus pyright missing-import suppression avoids hard dependency while keeping strict mypy clean.
+- `untyped-decorator` noise from Typer/FastMCP decorators is best handled in `pyproject.toml` via module-scoped `disable_error_code = ["untyped-decorator"]` override.
+- Added concrete dict typing in strict areas (`src/opendivine/sources/outshift.py`, `src/opendivine/core/provenance.py`, `src/opendivine/mcp/server.py`) and `cast`/`isinstance(type)` guards to eliminate `no-any-return` paths.
+- Verification outcome for this repo state is `ruff check src/` clean, `mypy src/opendivine/` clean, and tests currently `21 passed, 2 skipped`.

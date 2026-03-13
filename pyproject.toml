@@ -1,0 +1,54 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "opendivine"
+version = "0.1.0"
+description = "Quantum-entropy oracle SDK for divination systems"
+readme = "README.md"
+license = {text = "MIT"}
+authors = [{name = "Amenti Labs"}]
+requires-python = ">=3.10"
+keywords = ["qrng", "quantum", "oracle", "tarot", "iching", "divination", "entropy"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
+dependencies = [
+    "httpx>=0.27",
+    "typer[all]>=0.12",
+    "mcp>=1.0,<2.0",
+    "pydantic>=2.8",
+]
+
+[project.optional-dependencies]
+hardware = ["openentropy>=0.12"]
+dev = ["pytest>=8.0", "pytest-asyncio>=0.24", "ruff>=0.4", "mypy>=1.10"]
+
+[project.scripts]
+opendivine = "opendivine.cli.main:app"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/opendivine"]
+
+[tool.mypy]
+strict = true
+warn_return_any = true
+python_version = "3.10"
+
+[[tool.mypy.overrides]]
+module = ["httpx", "typer", "mcp.*"]
+ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+module = ["opendivine.cli.main", "opendivine.mcp.server"]
+disable_error_code = ["untyped-decorator"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
