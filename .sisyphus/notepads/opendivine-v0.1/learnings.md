@@ -154,3 +154,54 @@
 - Statistical checks use bounded sample sizes (1000-5000) and broad but meaningful thresholds (chi-square / absolute probability deltas) to keep runtime fast and avoid flakiness.
 - CLI tests run through subprocess calls to the installed `opendivine` entrypoint with `--json` output validation.
 - Evidence file for this task: `.sisyphus/evidence/task-18-pytest.txt`.
+
+## [2026-03-12] Task: T19
+
+- Created `.github/workflows/ci.yml` — GitHub Actions CI workflow for lint, type check, and test.
+  - Triggers on `push` to `main` and `pull_request` to `main`.
+  - Matrix: Python 3.10, 3.11, 3.12 on ubuntu-latest.
+  - Steps: checkout → setup-python → `pip install -e ".[dev]"` → `ruff check src/` → `mypy src/` → `pytest`.
+  - Uses `actions/checkout@v4` and `actions/setup-python@v5`.
+  - All steps run sequentially; pytest runs last to catch any issues.
+
+- Created `.github/workflows/publish.yml` — GitHub Actions publish workflow for PyPI.
+  - Triggers on `release: types: [published]` (GitHub Release published event).
+  - Uses Trusted Publishing (OIDC) with `id-token: write` permission.
+  - Environment: `pypi` (configured in GitHub repo settings for trusted publisher).
+  - Steps: checkout → setup-python (3.12) → `pip install build` → `python -m build` → `pypa/gh-action-pypi-publish@release/v1`.
+  - No API token configuration needed — OIDC handles authentication.
+
+- Both YAML files validated with `yaml.safe_load()` — no syntax errors.
+- Evidence saved to `.sisyphus/evidence/task-19-ci-yaml.txt`.
+
+## T20: Examples and README finalization (2026-03-12)
+
+### API patterns confirmed
+- `draw_tarot_sync(source="csprng")` — always works, no network needed
+- `draw_iching_sync(method=ICMethod.YARROW, source="csprng")` — method takes ICMethod enum, not string
+- `receipt_to_json(receipt)` — returns pretty-printed JSON string (2-space indent)
+- `SourceRegistry.register(source, priority=N)` — lower N = higher priority
+- Custom sources: implement `name`, `source_type`, `is_quantum`, `description` as class attributes + `get_bytes`, `is_available`, `health_check` async methods
+- Pass custom registry to `draw_tarot(registry=registry)` (async version), not to `draw_tarot_sync`
+
+### IChingDraw fields
+- `result.lines` — list of 6 LineType values, bottom to top
+- `result.changing_lines` — list of 0-indexed positions that are changing
+- `result.secondary` — None if no changing lines, Hexagram otherwise
+- `result.primary.character` — Chinese character for the hexagram
+
+### LineType enum values
+- OLD_YIN = 6 (changing, becomes yang)
+- YOUNG_YANG = 7 (stable yang)
+- YOUNG_YIN = 8 (stable yin)
+- OLD_YANG = 9 (changing, becomes yin)
+
+### Registry internals
+- Default sources registered: openentropy (10), anu (20), qbert (30), outshift (40), csprng (99)
+- Optional sources silently skipped if import fails
+- `_build_source_info` hardcodes quality_score=0.5 for csprng, 0.0 for others
+
+### README update pattern
+- Quick Start must use `source="csprng"` so copy-paste works offline
+- Source table needs ID column (the string you pass to `source=`)
+- MCP section: show both the CLI invocation AND the config JSON
