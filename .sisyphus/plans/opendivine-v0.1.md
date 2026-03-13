@@ -75,15 +75,15 @@ Build the first production-quality Python SDK for quantum-entropy-powered divina
 - GitHub repo with full OSS scaffolding + CI/CD
 
 ### Definition of Done
-- [ ] `pip install opendivine` succeeds in clean venv → prints version 0.1.0
-- [ ] `opendivine draw tarot` returns valid card + orientation + provenance in <3s
-- [ ] `opendivine draw iching` returns hexagram + changing lines + secondary hexagram
-- [ ] `opendivine draw iching --method yarrow` uses traditional yarrow stalk ratios
-- [ ] `opendivine sources` lists available entropy sources
-- [ ] MCP server responds to initialize + tool calls
-- [ ] 10,000 CSPRNG draws are approximately uniform (max/min ratio <1.5)
-- [ ] All tests pass with CSPRNG-only mode (no hardware, no network)
-- [ ] `ruff check` and `mypy` report zero errors
+- [x] `pip install opendivine` succeeds in clean venv → prints version 0.1.0
+- [x] `opendivine draw tarot` returns valid card + orientation + provenance in <3s
+- [x] `opendivine draw iching` returns hexagram + changing lines + secondary hexagram
+- [x] `opendivine draw iching --method yarrow` uses traditional yarrow stalk ratios
+- [x] `opendivine sources` lists available entropy sources
+- [x] MCP server responds to initialize + tool calls
+- [x] 10,000 CSPRNG draws are approximately uniform (max/min ratio <1.5)
+- [x] All tests pass with CSPRNG-only mode (no hardware, no network)
+- [x] `ruff check` and `mypy` report zero errors
 
 ### Must Have
 - Rejection sampling for ALL corpus draws (NEVER `value % N`)
@@ -222,7 +222,7 @@ Max Concurrent: 7 (Wave 2)
 > Implementation + Test = ONE Task. EVERY task has QA Scenarios.
 
 
-- [ ] 1. Project Scaffolding
+- [x] 1. Project Scaffolding
 
   **What to do**:
   - Create `pyproject.toml` with Hatchling build backend, project metadata (name=opendivine, version=0.1.0, python>=3.10, MIT license, author=Amenti Labs)
@@ -292,7 +292,7 @@ Max Concurrent: 7 (Wave 2)
   - Files: `pyproject.toml, src/opendivine/**/__init__.py, ruff.toml, .gitignore, .editorconfig`
   - Pre-commit: `pip install -e . && ruff check src/`
 
-- [ ] 2. Core Type Definitions
+- [x] 2. Core Type Definitions
 
   **What to do**:
   - Create `src/opendivine/types.py` with ALL core types:
@@ -367,7 +367,7 @@ Max Concurrent: 7 (Wave 2)
   - Message: `feat: project scaffolding and core types`
   - Files: `src/opendivine/types.py`
 
-- [ ] 3. CSPRNG Source Adapter
+- [x] 3. CSPRNG Source Adapter
 
   **What to do**:
   - Create `src/opendivine/sources/base.py` with abstract helpers if needed
@@ -425,7 +425,7 @@ Max Concurrent: 7 (Wave 2)
   - Message: `feat: project scaffolding and core types`
   - Files: `src/opendivine/sources/csprng.py, src/opendivine/sources/base.py`
 
-- [ ] 4. Tarot Corpus Data + Rider-Waite Images
+- [x] 4. Tarot Corpus Data + Rider-Waite Images
 
   **What to do**:
   - Create `src/opendivine/corpora/tarot/data.json`: 78 cards with fields: `number` (0-77), `name`, `suit` (null for Major Arcana, else Wands/Cups/Swords/Pentacles), `arcana` (major/minor), `keywords` (3-5 per card), `image_file` (filename reference)
@@ -504,7 +504,7 @@ Max Concurrent: 7 (Wave 2)
   - Message: `feat(corpora): tarot corpus with 78 Rider-Waite cards and images`
   - Files: `src/opendivine/corpora/tarot/`
 
-- [ ] 5. I Ching Corpus Data + Hexagram SVGs
+- [x] 5. I Ching Corpus Data + Hexagram SVGs
 
   **What to do**:
   - Create `src/opendivine/corpora/iching/data.json`: 64 hexagrams with fields: `number` (1-64, King Wen order), `name` (English), `pinyin`, `character` (Chinese), `upper_trigram` (name), `lower_trigram` (name), `judgment` (brief public-domain text, NOT full Wilhelm/Baynes), `image_file`
@@ -566,7 +566,7 @@ Max Concurrent: 7 (Wave 2)
   - Message: `feat(corpora): I Ching corpus with 64 hexagrams, 8 trigrams, and SVG images`
   - Files: `src/opendivine/corpora/iching/`
 
-- [ ] 6. OSS Scaffolding
+- [x] 6. OSS Scaffolding
 
   **What to do**:
   - Create `README.md`: Project name + tagline + badges (PyPI version, Python version, License, CI status), "What is this" section, Install (`pip install opendivine`), Quick Start (3-line tarot draw, 3-line I Ching draw), Source table (hardware/network/software with quantum status), CLI usage, MCP usage, Architecture overview, Contributing link, License
@@ -622,7 +622,7 @@ Max Concurrent: 7 (Wave 2)
   - Message: `docs: OSS scaffolding (README, LICENSE, CONTRIBUTING, templates)`
   - Files: `README.md, LICENSE, CONTRIBUTING.md, CODE_OF_CONDUCT.md, CHANGELOG.md, SECURITY.md, .github/`
 
-- [ ] 7. Rejection Sampling Utility
+- [x] 7. Rejection Sampling Utility
 
   **What to do**:
   - Create `src/opendivine/core/sampling.py` with:
@@ -710,7 +710,7 @@ Max Concurrent: 7 (Wave 2)
   - Message: `feat(core): rejection sampling utility for unbiased draws`
   - Files: `src/opendivine/core/sampling.py`
 
-- [ ] 8. Source Registry + Fallback Chain
+- [x] 8. Source Registry + Fallback Chain
 
   **What to do**:
   - Create `src/opendivine/core/registry.py` with:
@@ -798,7 +798,7 @@ Max Concurrent: 7 (Wave 2)
   - Message: `feat(core): source registry with fallback chain`
   - Files: `src/opendivine/core/registry.py`
 
-- [ ] 9. openentropy Adapter (Optional Hardware Source)
+- [x] 9. openentropy Adapter (Optional Hardware Source)
 
   **What to do**:
   - Create `src/opendivine/sources/openentropy_source.py` implementing `EntropySource`:
@@ -858,7 +858,7 @@ Max Concurrent: 7 (Wave 2)
   - Message: `feat(sources): openentropy hardware adapter with graceful fallback`
   - Files: `src/opendivine/sources/openentropy_source.py`
 
-- [ ] 10. ANU QRNG Adapter
+- [x] 10. ANU QRNG Adapter
 
   **What to do**:
   - Create `src/opendivine/sources/anu.py` implementing `EntropySource`:
@@ -915,7 +915,7 @@ Max Concurrent: 7 (Wave 2)
   - Message: `feat(sources): ANU, Qbert, and Outshift QRNG adapters`
   - Files: `src/opendivine/sources/anu.py`
 
-- [ ] 11. Qbert QRNG Adapter
+- [x] 11. Qbert QRNG Adapter
 
   **What to do**:
   - Create `src/opendivine/sources/qbert.py` implementing `EntropySource`:
@@ -966,7 +966,7 @@ Max Concurrent: 7 (Wave 2)
   - Message: `feat(sources): ANU, Qbert, and Outshift QRNG adapters`
   - Files: `src/opendivine/sources/qbert.py`
 
-- [ ] 12. Outshift QRNG Adapter
+- [x] 12. Outshift QRNG Adapter
 
   **What to do**:
   - Create `src/opendivine/sources/outshift.py` implementing `EntropySource`:
@@ -1015,7 +1015,7 @@ Max Concurrent: 7 (Wave 2)
   - Message: `feat(sources): ANU, Qbert, and Outshift QRNG adapters`
   - Files: `src/opendivine/sources/outshift.py`
 
-- [ ] 13. Provenance Receipt System
+- [x] 13. Provenance Receipt System
 
   **What to do**:
   - Create `src/opendivine/core/provenance.py` with:
@@ -1075,7 +1075,7 @@ Max Concurrent: 7 (Wave 2)
   - Message: `feat(core): provenance receipt system for auditable draws`
   - Files: `src/opendivine/core/provenance.py`
 
-- [ ] 14. Tarot Selection Oracle
+- [x] 14. Tarot Selection Oracle
 
   **What to do**:
   - Create `src/opendivine/oracles/tarot.py` with:
@@ -1166,7 +1166,7 @@ Max Concurrent: 7 (Wave 2)
   - Message: `feat(oracles): tarot selection oracle with rejection sampling`
   - Files: `src/opendivine/oracles/tarot.py`
 
-- [ ] 15. I Ching Selection Oracle + Changing Lines
+- [x] 15. I Ching Selection Oracle + Changing Lines
 
   **What to do**:
   - Create `src/opendivine/oracles/iching.py` with:
@@ -1268,7 +1268,7 @@ Max Concurrent: 7 (Wave 2)
   - Message: `feat(oracles): I Ching oracle with changing lines and traditional probability models`
   - Files: `src/opendivine/oracles/iching.py`
 
-- [ ] 16. CLI via Typer
+- [x] 16. CLI via Typer
 
   **What to do**:
   - Create `src/opendivine/cli/main.py` with Typer app:
@@ -1345,7 +1345,7 @@ Max Concurrent: 7 (Wave 2)
   - Message: `feat(cli): Typer CLI for tarot, iching, and source listing`
   - Files: `src/opendivine/cli/main.py`
 
-- [ ] 17. MCP Server via FastMCP
+- [x] 17. MCP Server via FastMCP
 
   **What to do**:
   - Create `src/opendivine/mcp/server.py` with FastMCP:
@@ -1403,7 +1403,7 @@ Max Concurrent: 7 (Wave 2)
   - Message: `feat(mcp): MCP server with draw_tarot, draw_iching, entropy_status tools`
   - Files: `src/opendivine/mcp/server.py, src/opendivine/mcp/__main__.py`
 
-- [ ] 18. Test Suite + pytest Setup
+- [x] 18. Test Suite + pytest Setup
 
   **What to do**:
   - Create `tests/conftest.py` with:
@@ -1461,7 +1461,7 @@ Max Concurrent: 7 (Wave 2)
   - Message: `test: comprehensive test suite for all modules`
   - Files: `tests/`
 
-- [ ] 19. GitHub Actions CI/CD
+- [x] 19. GitHub Actions CI/CD
 
   **What to do**:
   - Create `.github/workflows/ci.yml`:
@@ -1512,7 +1512,7 @@ Max Concurrent: 7 (Wave 2)
   - Message: `ci: GitHub Actions for lint, test, and PyPI publish`
   - Files: `.github/workflows/ci.yml, .github/workflows/publish.yml`
 
-- [ ] 20. Examples Directory + README Finalization
+- [x] 20. Examples Directory + README Finalization
 
   **What to do**:
   - Create `examples/` directory with:
@@ -1568,19 +1568,19 @@ Max Concurrent: 7 (Wave 2)
 
 > 4 review agents run in PARALLEL. ALL must APPROVE.
 
-- [ ] F1. **Plan Compliance Audit** — `oracle`
+- [x] F1. **Plan Compliance Audit** — `oracle`
   Read the plan end-to-end. For each "Must Have": verify implementation exists (read file, run command). For each "Must NOT Have": search codebase for forbidden patterns — reject with file:line if found. Check evidence files exist in .sisyphus/evidence/. Compare deliverables against plan.
   Output: `Must Have [N/N] | Must NOT Have [N/N] | Tasks [N/N] | VERDICT: APPROVE/REJECT`
 
-- [ ] F2. **Code Quality Review** — `unspecified-high`
+- [x] F2. **Code Quality Review** — `unspecified-high`
   Run `ruff check src/` + `mypy src/` + `pytest`. Review all files for: `as Any`, `# type: ignore` without justification, bare `except:`, `print()` in library code, `value % N` for draws (CRITICAL: reject immediately). Check for unused imports, missing docstrings on public functions.
   Output: `Ruff [PASS/FAIL] | Mypy [PASS/FAIL] | Tests [N pass/N fail] | Files [N clean/N issues] | VERDICT`
 
-- [ ] F3. **Real QA** — `unspecified-high`
+- [x] F3. **Real QA** — `unspecified-high`
   Execute ALL acceptance criteria (AC-1 through AC-9) in a clean venv. Test cross-feature integration. Test edge cases: draw with no network, draw with invalid source name, I Ching with 0 and 6 changing lines, concurrent draws. Save evidence to `.sisyphus/evidence/final-qa/`.
   Output: `ACs [N/N pass] | Edge Cases [N tested] | VERDICT`
 
-- [ ] F4. **Scope Fidelity Check** — `deep`
+- [x] F4. **Scope Fidelity Check** — `deep`
   For each task: read "What to do", read actual implementation. Verify 1:1 — everything in spec was built, nothing beyond spec was built. Check "Must NOT Have" compliance (no ML imports, no Modes 2-8, no hardcoded keys). Detect unaccounted files.
   Output: `Tasks [N/N compliant] | Unaccounted [CLEAN/N files] | VERDICT`
 
@@ -1634,12 +1634,12 @@ pytest
 ```
 
 ### Final Checklist
-- [ ] All "Must Have" items present and verified
-- [ ] All "Must NOT Have" items absent (grep confirms)
-- [ ] All tests pass with CSPRNG-only mode
-- [ ] `pip install -e .` succeeds in clean venv
-- [ ] CLI responds in <3 seconds
-- [ ] MCP server handles initialize + tool calls
-- [ ] Images load correctly via importlib.resources
-- [ ] Provenance receipt on every draw
-- [ ] Rejection sampling produces uniform distribution
+- [x] All "Must Have" items present and verified
+- [x] All "Must NOT Have" items absent (grep confirms)
+- [x] All tests pass with CSPRNG-only mode
+- [x] `pip install -e .` succeeds in clean venv
+- [x] CLI responds in <3 seconds
+- [x] MCP server handles initialize + tool calls
+- [x] Images load correctly via importlib.resources
+- [x] Provenance receipt on every draw
+- [x] Rejection sampling produces uniform distribution
