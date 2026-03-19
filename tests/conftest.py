@@ -7,10 +7,10 @@ import pytest
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 
-from opendivine.core.registry import SourceRegistry
-from opendivine.corpora.iching import load_iching_corpus
-from opendivine.corpora.tarot import load_tarot_corpus
-from opendivine.sources.csprng import CSPRNGSource
+from opendivination.core.registry import SourceRegistry
+from opendivination.corpora.iching import load_iching_corpus
+from opendivination.corpora.tarot import load_tarot_corpus
+from opendivination.sources.csprng import CSPRNGSource
 
 
 @pytest.fixture

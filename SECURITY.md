@@ -22,7 +22,20 @@ You will receive a response within 72 hours. If the issue is confirmed, we will 
 
 ## API Key Security
 
-Never commit API keys to version control. OpenDivine reads keys from environment variables only:
+Never commit API keys to version control. OpenDivination reads keys from environment variables only.
+
+### QRNG source keys
 - `QBERT_API_KEY`
 - `ANU_API_KEY`
 - `OUTSHIFT_API_KEY`
+
+### Embedding provider keys
+- `OPENAI_API_KEY`
+- `GEMINI_API_KEY` / `GOOGLE_API_KEY`
+- `OPENAI_COMPATIBLE_API_KEY`
+
+### Data handling
+
+When using cloud embedding providers (`openai`, `gemini`, `openai_compatible`), your question text
+and symbol descriptions are sent to external APIs for embedding. Use `local`, `ollama`, or
+`sentence_transformers` providers to keep all data on your machine.

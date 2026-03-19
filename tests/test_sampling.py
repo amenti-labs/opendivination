@@ -5,7 +5,7 @@ from os import urandom
 
 import pytest
 
-from opendivine.core.sampling import (
+from opendivination.core.sampling import (
     EntropyExhaustedError,
     rejection_sample,
     rejection_sample_weighted,

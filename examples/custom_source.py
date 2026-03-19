@@ -2,9 +2,9 @@
 
 import os
 
-from opendivine.core.registry import SourceRegistry
-from opendivine.oracles.tarot import draw_tarot
-from opendivine.types import SourceHealth
+from opendivination.core.registry import SourceRegistry
+from opendivination.oracles.tarot import draw_tarot
+from opendivination.types import SourceHealth
 import asyncio
 
 

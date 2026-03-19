@@ -1,4 +1,4 @@
-# Contributing to OpenDivine
+# Contributing to OpenDivination
 
 Thanks for your interest in contributing. This document covers development setup, code style, and the PR process.
 
@@ -7,8 +7,8 @@ Thanks for your interest in contributing. This document covers development setup
 ## Development Setup
 
 ```bash
-git clone https://github.com/amentilabs/opendivine.git
-cd opendivine
+git clone https://github.com/amentilabs/opendivination.git
+cd opendivination
 
 python3 -m venv .venv
 source .venv/bin/activate
@@ -33,7 +33,7 @@ pytest
 For coverage:
 
 ```bash
-pytest --cov=src/opendivine --cov-report=term-missing
+pytest --cov=src/opendivination --cov-report=term-missing
 ```
 
 Tests that require network access (ANU QRNG, Qbert, Outshift) are marked with `@pytest.mark.network` and skipped by default. Run them explicitly:
@@ -60,6 +60,9 @@ ruff format src/
 ```
 
 All public functions and classes need type annotations. The CI will fail without them.
+
+If you change the bundled agent skill in `skills/divination/`, keep the instructions aligned
+with the actual CLI and source selection behavior.
 
 ---
 
@@ -95,24 +98,26 @@ Keep PRs focused. One logical change per PR. If you're fixing a bug and also ref
 
 ## Adding a New Entropy Source
 
-Entropy sources implement the `EntropySource` protocol defined in `src/opendivine/entropy/base.py`:
+Entropy sources implement the `EntropySource` protocol defined in `src/opendivination/types.py`:
 
 ```python
 class EntropySource(Protocol):
-    source_id: str
+    name: str
+    source_type: str  # "hardware" | "network" | "software"
     is_quantum: bool
-    priority: int
+    description: str
 
     async def get_bytes(self, n: int) -> bytes: ...
-    async def health_check(self) -> bool: ...
+    async def is_available(self) -> bool: ...
+    async def health_check(self) -> SourceHealth: ...
 ```
 
 Steps:
 
-1. Create `src/opendivine/entropy/sources/your_source.py`
+1. Create `src/opendivination/sources/your_source.py`
 2. Implement the protocol
-3. Register it in `src/opendivine/entropy/registry.py`
-4. Add tests in `tests/entropy/test_your_source.py`
+3. Register it in `src/opendivination/core/registry.py`
+4. Add tests in `tests/test_sources.py`
 5. Update the entropy sources table in `README.md`
 
 If your source requires an API key, follow the existing pattern: read from an environment variable, document it in the README, and never hardcode credentials.

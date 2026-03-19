@@ -1,7 +1,7 @@
 """I Ching changing lines example — yarrow vs three-coin methods."""
 
-from opendivine.oracles.iching import draw_iching_sync
-from opendivine.types import ICMethod, LineType
+from opendivination.oracles.iching import draw_iching_sync
+from opendivination.types import ICMethod, LineType
 
 LINE_SYMBOLS = {
     LineType.OLD_YIN: "-- x --  (old yin, changing)",

@@ -3,8 +3,8 @@ from __future__ import annotations
 import json
 from dataclasses import asdict
 
-from opendivine.core.provenance import create_provenance, receipt_to_json
-from opendivine.types import SourceInfo
+from opendivination.core.provenance import create_provenance, receipt_to_json
+from opendivination.types import SourceInfo
 
 
 def test_create_provenance_and_json_serialization() -> None:
@@ -47,3 +47,34 @@ def test_create_provenance_and_json_serialization() -> None:
     json_payload = receipt_to_json(receipt)
     decoded = json.loads(json_payload)
     assert decoded == payload
+
+
+def test_create_provenance_includes_source_namespace_details() -> None:
+    source_info = SourceInfo(
+        name="openentropy:qcicada?conditioning=raw&mode=raw",
+        source_type="hardware",
+        is_quantum=True,
+        description="QCicada named OpenEntropy selector",
+        backend="openentropy",
+        selector="qcicada",
+        selection_mode="named_source",
+        conditioning="raw",
+        device_mode="raw",
+        available=True,
+        quality_score=0.95,
+    )
+
+    receipt = create_provenance(
+        source_info=source_info,
+        raw_entropy=bytes.fromhex("feedface"),
+        mode="selection",
+        corpus="tarot",
+        result_summary="Death (upright)",
+    )
+
+    assert receipt.details is not None
+    assert receipt.details["source_backend"] == "openentropy"
+    assert receipt.details["source_selector"] == "qcicada"
+    assert receipt.details["source_selection_mode"] == "named_source"
+    assert receipt.details["source_conditioning"] == "raw"
+    assert receipt.details["source_device_mode"] == "raw"

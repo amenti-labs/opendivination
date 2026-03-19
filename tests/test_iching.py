@@ -4,10 +4,10 @@ import asyncio
 from collections import Counter
 from os import urandom
 
-from opendivine.corpora.iching import hexagram_by_lines
-from opendivine.oracles import iching as iching_module
-from opendivine.oracles.iching import draw_iching
-from opendivine.types import ICMethod, LineType
+from opendivination.corpora.iching import hexagram_by_lines
+from opendivination.oracles import iching as iching_module
+from opendivination.oracles.iching import draw_iching
+from opendivination.types import ICMethod, LineType
 
 
 def test_iching_corpus_loads_64_hexagrams_and_8_trigrams(iching_corpus) -> None:
@@ -30,6 +30,12 @@ def test_draw_iching_all_methods(csprng_registry) -> None:
         assert len(result.lines) == 6
         assert result.primary.number in range(1, 65)
         assert result.provenance.source_id == "csprng"
+
+
+def test_draw_iching_defaults_to_csprng(csprng_registry) -> None:
+    result = asyncio.run(draw_iching(registry=csprng_registry))
+    assert result.provenance.source_id == "csprng"
+    assert result.provenance.is_quantum is False
 
 
 def test_draw_iching_zero_changing_lines(monkeypatch, csprng_registry) -> None:

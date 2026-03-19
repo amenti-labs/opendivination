@@ -3,9 +3,9 @@ from __future__ import annotations
 import asyncio
 from collections import Counter
 
-from opendivine.corpora.tarot import get_card_image_path
-from opendivine.oracles.tarot import draw_tarot
-from opendivine.types import Orientation
+from opendivination.corpora.tarot import get_card_image_path
+from opendivination.oracles.tarot import draw_tarot
+from opendivination.types import Orientation
 
 
 def test_tarot_corpus_loads_78_cards(tarot_corpus) -> None:
@@ -27,6 +27,12 @@ def test_draw_tarot_valid_card_and_provenance(csprng_registry, tarot_corpus) -> 
     assert receipt.corpus == "tarot"
     assert receipt.mode == "selection"
     assert receipt.raw_entropy_hex
+
+
+def test_draw_tarot_defaults_to_csprng(csprng_registry) -> None:
+    result = asyncio.run(draw_tarot(registry=csprng_registry))
+    assert result.provenance.source_id == "csprng"
+    assert result.provenance.is_quantum is False
 
 
 def test_tarot_1000_draw_uniformity(csprng_registry) -> None:

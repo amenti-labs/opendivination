@@ -1,12 +1,12 @@
-# OpenDivine — Project Plan
+# OpenDivination — Project Plan
 
-> *"The Global Consciousness Project spent 15 years asking whether consciousness influences quantum randomness. OpenDivine inverts the question: what if quantum randomness is a window into meaning? We built the tools to find out."*
+> *"The Global Consciousness Project spent 15 years asking whether consciousness influences quantum randomness. OpenDivination inverts the question: what if quantum randomness is a window into meaning? We built the tools to find out."*
 
 ---
 
 ## What Is This
 
-**OpenDivine** is an open-source oracle SDK that applies genuine quantum entropy to divination systems. It is the first developer toolkit to:
+**OpenDivination** is an open-source oracle SDK that applies genuine quantum entropy to divination systems. It is the first developer toolkit to:
 
 1. Replace PRNG with real QRNG hardware sources in symbol-draw systems
 2. Introduce semantic resonance — finding which symbol an entropy burst most *resembles* in embedding space
@@ -24,7 +24,7 @@ It is **not** a magic app. It is a rigorous, auditable, provenance-stamped syste
 - **For builders:** MCP server out of the box — any LLM agent can call it natively.
 - **For consumers:** The underlying engine for a quantum tarot app (future).
 
-**Closest prior art:** Princeton's Global Consciousness Project (network of QRNG nodes since 1998). OpenDivine is the personal/developer equivalent.
+**Closest prior art:** Princeton's Global Consciousness Project (network of QRNG nodes since 1998). OpenDivination is the personal/developer equivalent.
 
 **Competition:** 222 tarot repos, 107 divination repos on GitHub. Zero use real QRNG. The space is empty.
 
@@ -97,13 +97,13 @@ I Ching is uniquely suited to QRNG — it's a binary system at its core:
 
 ## QRNG Source Architecture
 
-OpenDivine uses **openentropy** as its canonical entropy backend — the modular, hardware-aware entropy SDK already built and tested. This is not a wrapper around a single API — it's a pluggable source registry with runtime fallback.
+OpenDivination uses **openentropy** as its canonical entropy backend — the modular, hardware-aware entropy SDK already built and tested. This is not a wrapper around a single API — it's a pluggable source registry with runtime fallback.
 
 ### openentropy as the Entropy Layer
 
 ```
-opendivine
-    └── @opendivine/core
+opendivination
+    └── @opendivination/core
             └── openentropy (Rust core / Python bindings)
                     ├── hardware sources   ← local devices
                     ├── network QRNG       ← remote APIs
@@ -124,11 +124,11 @@ opendivine
 - Source-separation metrics (is QRNG geometrically distinct from PRNG in embedding space?)
 - Pre-registration methodology for psi/intention experiments
 
-OpenDivine's Resonance Oracle (Mode 2) plugs directly into this pipeline.
+OpenDivination's Resonance Oracle (Mode 2) plugs directly into this pipeline.
 
 ### Source Registry
 
-Sources are registered as plugins. OpenDivine ships with these out of the box:
+Sources are registered as plugins. OpenDivination ships with these out of the box:
 
 | ID | Source | Type | Backend |
 |----|--------|------|---------|
@@ -184,7 +184,7 @@ These features feed directly into Mode 2 (Resonance) and Mode 3 (Morphology).
 4. Fallback: os CSPRNG (clearly labeled in provenance receipt)
 ```
 
-User can override: `opendivine draw tarot --source qcicada`
+User can override: `opendivination draw tarot --source qcicada`
 
 ### Provenance Receipts
 
@@ -217,7 +217,7 @@ Every draw attaches a full source audit:
 ## Repository Structure
 
 ```
-opendivine/
+opendivination/
 ├── packages/
 │   ├── core/                     # Entropy layer + source registry
 │   │   ├── sources/
@@ -256,7 +256,7 @@ opendivine/
 │   │   ├── ollama.ts
 │   │   └── zai.ts                # Z.AI / GLM default for scripts
 │   ├── api/                      # Self-hostable REST server
-│   └── cli/                      # npx opendivine draw tarot --mode resonance --source qcicada
+│   └── cli/                      # npx opendivination draw tarot --mode resonance --source qcicada
 ├── research/
 │   ├── entropy-validation/       # NIST SP 800-22 tests, chi-squared (openentropy methodology)
 │   ├── source-separation/        # openentropy-embed: are sources geometrically distinct?
@@ -319,11 +319,11 @@ Log entropy continuously for 30 days. Find entropy anomalies. Did anything meani
 Ship as a Model Context Protocol server from day one. Any LLM agent (Claude, GPT, Gemini) can call:
 
 ```
-opendivine.draw(corpus="tarot", mode="resonance", question="...")
-opendivine.hexagram(mode="morphology")
-opendivine.waveform(question="...")
-opendivine.arv.new_session(target_pool="...")
-opendivine.entropy.status()
+opendivination.draw(corpus="tarot", mode="resonance", question="...")
+opendivination.hexagram(mode="morphology")
+opendivination.waveform(question="...")
+opendivination.arv.new_session(target_pool="...")
+opendivination.entropy.status()
 ```
 
 Directly competes with (and supersedes) the existing I Ching MCP server (Rust, Jan 2026).
@@ -332,7 +332,7 @@ Directly competes with (and supersedes) the existing I Ching MCP server (Rust, J
 
 ## Connection to Existing Work
 
-| OpenDivine Component | Built On |
+| OpenDivination Component | Built On |
 |---------------------|----------|
 | Entropy layer / source registry | `openentropy` (Rust/Python, multi-source, auto-detect) |
 | Entropy → embedding pipeline | `openentropy-embed` (Qwen3-0.6B, window-based, already running) |
@@ -345,7 +345,7 @@ Directly competes with (and supersedes) the existing I Ching MCP server (Rust, J
 | Waveform oracle | LLM RV Pipeline (LLM as perceptual instrument) |
 | GCP-compatible research | `qrng-research`, `openentropy` benchmark methodology |
 
-**openentropy is the keystone.** It already solves the hardest problem: a production-grade, multi-source entropy SDK with hardware QRNG support, statistical validation, and Python bindings. OpenDivine is the oracle layer that sits on top of it.
+**openentropy is the keystone.** It already solves the hardest problem: a production-grade, multi-source entropy SDK with hardware QRNG support, statistical validation, and Python bindings. OpenDivination is the oracle layer that sits on top of it.
 
 This is not a new idea — it's the integration layer across everything already built.
 
@@ -360,7 +360,7 @@ This is not a new idea — it's the integration layer across everything already 
 - [ ] `packages/corpora` — Tarot + I Ching JSON with pre-computed embeddings (reuse openentropy-embed Qwen3 pipeline)
 - [ ] `packages/oracles/selection` — Mode 1, clean API
 - [ ] Provenance receipts with source metadata
-- [ ] CLI: `npx opendivine draw tarot --source auto`
+- [ ] CLI: `npx opendivination draw tarot --source auto`
 - [ ] README with entropy source docs + validation methodology
 
 ### v0.2 — Resonance (1–2 weeks)
@@ -390,11 +390,11 @@ This is not a new idea — it's the integration layer across everything already 
 
 ## Name
 
-**opendivine** — clean, memorable, googleable, hits both technical and spiritual audiences.
+**opendivination** — clean, memorable, googleable, hits both technical and spiritual audiences.
 
-npm: `@opendivine/core`, `@opendivine/corpora`, `@opendivine/oracles`  
-GitHub: `ereid7/opendivine`  
-Docs: `opendivine.dev` (TBD)
+npm: `@opendivination/core`, `@opendivination/corpora`, `@opendivination/oracles`  
+GitHub: `ereid7/opendivination`  
+Docs: `opendivination.dev` (TBD)
 
 ---
 

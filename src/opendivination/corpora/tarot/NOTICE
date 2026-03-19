@@ -1,0 +1,30 @@
+Tarot Card Images
+=================
+
+The tarot card images in this directory are reproductions of the original
+Rider-Waite-Smith deck, illustrated by Pamela Colman Smith and first
+published in December 1909 by William Rider & Son of London.
+
+Pamela Colman Smith died on 18 September 1951. Her original illustrations
+entered the public domain on 1 January 2022 under life-plus-70-years rules
+(applicable in the UK, EU, and most other jurisdictions). In the United
+States, the illustrations have been in the public domain since at least 1966
+(published before 1928).
+
+These images are NOT the recolored 1971 edition published by U.S. Games
+Systems, Inc. U.S. Games holds a separate copyright registration
+(VA-101-718) covering only their specific recoloring choices, card backs,
+and box design — not the underlying Smith line art.
+
+"Rider-Waite" is a trademark of U.S. Games Systems, Inc. This project uses
+the term "Rider-Waite-Smith" (RWS) for descriptive/nominative purposes only.
+
+Card Data
+=========
+
+Card names, suit assignments, and keywords in data.json are factual
+descriptions of the traditional RWS tarot system and are not subject to
+copyright protection.
+
+Visual captions in visual_captions.json are original descriptions written
+for this project and are covered by the project's MIT license.

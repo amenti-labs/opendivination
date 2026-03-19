@@ -1,164 +1,280 @@
-# OpenDivine
+# OpenDivination
 
-**The first open-source oracle SDK powered by genuine quantum entropy**
+OpenDivination is a lightweight oracle SDK and CLI for:
 
-[![PyPI version](https://img.shields.io/pypi/v/opendivine)](https://pypi.org/project/opendivine/)
-[![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue)](https://www.python.org/downloads/)
-[![MIT License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
-[![CI](https://github.com/amentilabs/opendivine/actions/workflows/ci.yml/badge.svg)](https://github.com/amentilabs/opendivine/actions)
+- tarot draws
+- I Ching casts
+- auditable entropy provenance
+- one stable text-only tarot resonance mode
+- coherence scoring (semantic similarity between question and drawn symbol)
 
----
-
-There are 222 tarot repositories on GitHub. None of them use real quantum random number generation. They all call `random.choice()` or `Math.random()` and call it a day. OpenDivine is different.
-
-OpenDivine replaces pseudorandom number generation with hardware quantum entropy: photon vacuum fluctuations, quantum tunneling events, and other physical processes that are genuinely non-deterministic. Every draw is backed by a provenance receipt that records exactly which entropy source was used, whether it was quantum, and the raw hex bytes that drove the selection. You can audit every result.
-
-This is not a magic app. It's a rigorous, auditable system for structured reflection. The quantum entropy is real. The interpretive meaning is yours to construct. OpenDivine gives you the infrastructure to build divination software that's honest about what it is and transparent about how it works.
-
----
+The product surface is intentionally small. Selection mode is the default. Resonance mode is a single opinionated text-first path built from the latest local QCicada experiments.
 
 ## Install
 
 ```bash
-pip install opendivine
+# Easiest CLI install
+pipx install opendivination
 
-# With hardware QRNG support (requires Rust toolchain):
-pip install opendivine[hardware]
+# Python SDK install
+pip install opendivination
+
+# Hardware QRNG support
+pip install "opendivination[hardware]"
 ```
 
----
+The default install requires no QRNG device and no embedding model. Out of the box, draws use the
+computer RNG source `csprng`.
 
-## Quick Start
+QCicada hardware support is currently verified on Python 3.13. The base package works on Python
+3.14, but the `openentropy` dependency does not build there yet.
 
-### Tarot
+## Core Commands
+
+```bash
+opendivination draw tarot --json
+opendivination draw tarot --mode resonance --json
+opendivination draw iching --method yarrow --json
+opendivination sources --json
+```
+
+Those default to `--source csprng` unless you explicitly choose another source.
+
+## Source Modes
+
+OpenDivination has three practical source paths:
+
+- `csprng`: regular computer RNG, available by default, no extra setup
+- network QRNG: sources like `anu`, `qbert`, or `outshift`
+- hardware QRNG: sources like `qcicada` via `openentropy`
+
+Check what is available on the current machine:
+
+```bash
+opendivination sources --json
+```
+
+If you care about trust or randomness provenance, always inspect:
+
+- `provenance.source_id`
+- `provenance.is_quantum`
+
+## Tarot
 
 ```python
-from opendivine.oracles.tarot import draw_tarot_sync
+from opendivination.oracles.tarot import draw_tarot_sync
 
 result = draw_tarot_sync(source="csprng")
-print(f"{result.card.name} ({result.orientation.value})")
-print(f"Source: {result.provenance.source_id} (quantum: {result.provenance.is_quantum})")
+print(result.card.name, result.orientation.value)
+print(result.provenance.source_id, result.provenance.is_quantum)
 ```
 
-### I Ching
+The default source is `csprng`. To opt into QRNG, pass an explicit source such as `source="anu"` or
+`source="qcicada"`.
+
+## QRNG
+
+Network QRNG examples:
+
+```bash
+opendivination draw tarot --source anu --json
+opendivination draw iching --source anu --json
+```
+
+Hardware QRNG with QCicada requires the optional hardware dependency and a working OpenEntropy /
+QCicada setup:
+
+```bash
+python3.13 -m pip install "opendivination[hardware]"
+opendivination sources --json
+opendivination draw tarot --source qcicada --json
+```
+
+If `qcicada` does not show up in `sources --json`, the hardware path is not ready yet.
+If you are using Python 3.14, install the hardware path with Python 3.13 until `openentropy`
+supports 3.14.
+
+## Tarot Resonance
+
+Resonance is now one stable text-only algorithm:
+
+1. sample raw entropy
+2. choose a small uniform shortlist from the deck
+3. render each shortlisted card as text
+4. render the entropy as `bare_hex_spaced`
+5. embed both with the chosen text embedding model
+6. pick the closest card inside the shortlist
+
+Stable defaults:
+
+- tarot card text: `descriptive`
+- entropy text: `bare_hex_spaced`
+- entropy bytes: `256`
+- shortlist size: `3`
+- entropy source default: `csprng`
+- local provider: `local`
+- local model: Ollama `nomic-embed-text`
 
 ```python
-from opendivine.oracles.iching import draw_iching_sync
+from opendivination.embeddings.providers import create_embedding_provider
+from opendivination.oracles.tarot import draw_tarot_by_resonance_sync
 
-from opendivine.types import ICMethod
-
-result = draw_iching_sync(method=ICMethod.YARROW, source="csprng")
-print(f"#{result.primary.number}: {result.primary.name}")
-if result.secondary:
-    print(f"-> #{result.secondary.number}: {result.secondary.name}")
+provider = create_embedding_provider("local", model="nomic-embed-text")
+result = draw_tarot_by_resonance_sync(
+    provider=provider,
+    source="csprng",
+)
+print(result.card.name, result.score)
+print(result.provenance.source_id, result.provenance.is_quantum)
 ```
 
-Pass `source="auto"` (or omit it entirely) to let the registry pick the best available quantum source automatically. Use `source="csprng"` for offline use or testing.
+Resonance is opt-in. Standard tarot and I Ching draws do not need embeddings.
 
----
-
-## Entropy Sources
-
-| Source | ID | Type | Quantum | Notes |
-|--------|----|------|---------|-------|
-| openentropy | `openentropy` | Hardware | Yes | 60+ local hardware sources (optional, requires `[hardware]` extra) |
-| ANU QRNG | `anu` | Network | Yes | Photon vacuum fluctuation |
-| Qbert | `qbert` | Network | Yes | Quantum tunneling, raw (requires `QBERT_API_KEY`) |
-| Outshift | `outshift` | Network | Yes | Cisco QRNG, DRBG post-processed (requires `OUTSHIFT_API_KEY`) |
-| CSPRNG | `csprng` | Software | No | `os.urandom` fallback, always available |
-
-Sources are tried in priority order. If a quantum source is unavailable, the system falls back automatically and records the actual source used in the provenance receipt. You always know what you got.
-
----
-
-## CLI
+CLI:
 
 ```bash
-opendivine draw tarot --source auto
-opendivine draw iching --method yarrow
-opendivine sources
-opendivine version
+opendivination draw tarot \
+  --mode resonance \
+  --embed-provider local \
+  --embed-model nomic-embed-text \
+  --json
 ```
----
 
-## MCP Server
-
-OpenDivine ships an MCP server for use with LLM agents (Claude, etc.). Start it with:
+For a QRNG-backed resonance draw, add an explicit source:
 
 ```bash
-python3 -m opendivine.mcp
+opendivination draw tarot \
+  --mode resonance \
+  --embed-provider local \
+  --embed-model nomic-embed-text \
+  --source qcicada \
+  --json
 ```
 
-Add it to your `claude_desktop_config.json`:
+Supported stable embedding runtimes:
+
+- `local`
+- `ollama`
+- `sentence_transformers`
+- `openai`
+- `openai_compatible`
+- `gemini`
+- `deterministic` for tests
+
+The simplest local embedding path is:
+
+1. install Ollama
+2. run `ollama pull nomic-embed-text`
+3. run `opendivination draw tarot --mode resonance --embed-provider local --embed-model nomic-embed-text --json`
+
+## Coherence Scoring
+
+Pass a question with `--question` / `-q` to get a coherence score — how semantically similar your
+question is to the drawn symbol's meaning. Works with both tarot and I Ching:
+
+```bash
+opendivination draw tarot -q "What should I focus on?" --embed-provider local --json
+opendivination draw iching -q "How should I approach this conflict?" --embed-provider local --json
+```
+
+Python SDK:
+
+```python
+from opendivination.embeddings.providers import create_embedding_provider
+from opendivination.oracles.tarot import draw_tarot_sync
+
+provider = create_embedding_provider("local")
+result = draw_tarot_sync(source="csprng", question="What awaits?", provider=provider)
+if result.coherence:
+    print(f"Coherence: {result.coherence.score:.4f}")
+```
+
+Coherence uses embedding cosine similarity — no LLM required. The question text is never stored;
+only a SHA-256 hash appears in the result. Coherence is fully optional: omit `--question` and
+draws work exactly as before.
+
+## JSON Card Text Config
+
+Tarot card text can be customized with JSON.
+
+Default path:
+
+```text
+~/.config/opendivination/config.json
+```
+
+You can also pass `--config /path/to/config.json`.
+
+Example:
 
 ```json
 {
-  "mcpServers": {
-    "opendivine": {
-      "command": "python3",
-      "args": ["-m", "opendivine.mcp"]
+  "tarot": {
+    "card_text": {
+      "profiles": {
+        "descriptive": {
+          "template": "Tarot card: {name}. Arcana: {arcana}. Suit: {suit}. Keywords: {keywords}.",
+          "overrides": {
+            "Death": "Tarot card: Death. Transformation, ending, and renewal."
+          }
+        }
+      }
     }
   }
 }
 ```
 
-Available tools: `draw_tarot`, `draw_iching`, `entropy_status`.
+A copyable example also lives at `skills/divination/examples/config.json`.
 
----
+## Provenance
 
-## Examples
+When randomness or trust matters, use:
 
-The `examples/` directory has runnable scripts:
+- `provenance.source_id`
+- `provenance.is_quantum`
 
-- `basic_draw.py` — tarot and I Ching draw with CSPRNG fallback
-- `iching_changing_lines.py` — yarrow vs three-coin, changing lines, secondary hexagram
-- `custom_source.py` — implement a custom `EntropySource`, register it, draw with it
-- `provenance_audit.py` — draw tarot, print full provenance receipt as JSON
+OpenDivination keeps interpretation separate from entropy facts. If the source is `csprng`, it is reported honestly as software entropy.
+
+## Sources
+
+Named sources include:
+
+- `qcicada`
+- `openentropy:qcicada`
+- `anu`
+- `qbert`
+- `outshift`
+- `csprng`
+
+Inspect availability with:
 
 ```bash
-python3 examples/basic_draw.py
-python3 examples/provenance_audit.py
+opendivination sources --json
 ```
 
----
+## Skill
 
-## Architecture
+The OpenClaw skill bundle is in `skills/divination/SKILL.md` and installs as the `divination`
+skill.
 
-```
-Entropy Sources
-  openentropy (hardware)
-  ANU QRNG (network)
-  Qbert (network)
-  Outshift (network)
-  CSPRNG (software fallback)
-        |
-        v
-  Source Registry
-  (auto-detect, priority chain, health checks)
-        |
-        v
-  Oracle Engine
-  (rejection sampling for unbiased selection)
-        |
-        v
-  Provenance Receipt
-  (source_id, is_quantum, raw_hex, timestamp, method)
-        |
-        v
-  Result
-  (card/hexagram + orientation + provenance)
+For the skill, the easiest setup is:
+
+1. install the CLI with `pipx install opendivination`
+2. install the `divination` skill bundle into your OpenClaw skills directory
+3. use QRNG or resonance only when you intentionally opt in to them
+
+For QCicada hardware support through `pipx`, use Python 3.13 explicitly:
+
+```bash
+pipx install --python python3.13 'opendivination[hardware]'
 ```
 
-The rejection sampling step is important. Naive modulo bias would skew results when the entropy range doesn't divide evenly into the symbol count. OpenDivine discards out-of-range bytes and resamples, ensuring every symbol has exactly equal probability.
+## Development
 
----
-
-## Contributing
-
-See [CONTRIBUTING.md](CONTRIBUTING.md) for development setup, code style, and the PR process.
-
----
-
-## License
-
-MIT. See [LICENSE](LICENSE).
+```bash
+pip install -e ".[dev]"
+pytest
+ruff check src tests skills/divination/scripts
+mypy src
+python3 skills/divination/scripts/run_opendivination.py --check
+```

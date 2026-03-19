@@ -1,0 +1,26 @@
+I Ching Data
+============
+
+The I Ching (易經, Book of Changes) is a text originating from the Zhou
+Dynasty (approximately 1000-750 BCE). The hexagram names, trigram
+associations, and structural system are part of the shared cultural heritage
+of humanity and are not subject to copyright protection.
+
+Hexagram names and pinyin romanizations in data.json follow the standard
+King Wen sequence. Judgment texts are original paraphrases written for this
+project (not copied from any translation) and are covered by the project's
+MIT license.
+
+Hexagram Images
+===============
+
+The SVG hexagram images in the images/ directory are programmatically
+generated line diagrams representing the traditional six-line hexagram
+symbols. They consist of simple geometric rectangles (solid lines for yang,
+broken lines for yin) and are not derived from any copyrighted source.
+
+Trigram Data
+============
+
+Trigram names, characters (☰☷☳☴☵☲☶☱), attributes, and natural images in
+trigrams.json are standard I Ching reference data in the public domain.

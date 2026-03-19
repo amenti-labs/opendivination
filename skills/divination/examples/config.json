@@ -1,0 +1,14 @@
+{
+  "tarot": {
+    "card_text": {
+      "profiles": {
+        "descriptive": {
+          "template": "Tarot card: {name}. Arcana: {arcana}. Suit: {suit}. Keywords: {keywords}.",
+          "overrides": {
+            "Death": "Tarot card: Death. Transformation, ending, and renewal."
+          }
+        }
+      }
+    }
+  }
+}

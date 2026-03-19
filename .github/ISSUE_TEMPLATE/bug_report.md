@@ -18,7 +18,7 @@ A clear and concise description of what you expected to happen.
 **Environment**
 - OS: [e.g. macOS 14, Ubuntu 22.04]
 - Python version: [e.g. 3.11]
-- opendivine version: [e.g. 0.1.0]
+- opendivination version: [e.g. 0.1.0]
 - Entropy source: [e.g. csprng, anu]
 
 **Additional context**

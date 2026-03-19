@@ -1,7 +1,7 @@
 """Basic draw example — tarot and I Ching with CSPRNG fallback."""
 
-from opendivine.oracles.tarot import draw_tarot_sync
-from opendivine.oracles.iching import draw_iching_sync
+from opendivination.oracles.tarot import draw_tarot_sync
+from opendivination.oracles.iching import draw_iching_sync
 
 result = draw_tarot_sync(source="csprng")
 print(f"Tarot: {result.card.name} ({result.orientation.value})")
