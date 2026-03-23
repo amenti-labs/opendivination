@@ -48,6 +48,12 @@ opendivination setup
 opendivination sources --json
 ```
 
+If PyPI is temporarily unavailable, use the GitHub repo directly:
+
+```bash
+pipx install git+https://github.com/amenti-labs/opendivination.git
+```
+
 If the user wants remote QRNG:
 
 - ask whether they want `anu` or `outshift`
@@ -76,6 +82,13 @@ pipx install opendivination
 
 # Python SDK install
 pip install opendivination
+```
+
+GitHub fallback:
+
+```bash
+pipx install git+https://github.com/amenti-labs/opendivination.git
+pip install git+https://github.com/amenti-labs/opendivination.git
 ```
 
 The default install requires no QRNG device and no embedding model. Out of the box, draws use the

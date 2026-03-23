@@ -158,6 +158,12 @@ python3 -m pipx install opendivination
 python3 -m pipx install --python python3.13 'opendivination[hardware]'  # optional QCicada support
 ```
 
+GitHub fallback:
+
+```bash
+python3 -m pipx install git+https://github.com/amenti-labs/opendivination.git
+```
+
 Local repo:
 
 ```bash
