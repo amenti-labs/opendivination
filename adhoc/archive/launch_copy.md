@@ -5,14 +5,15 @@ Use this as the human-facing copy pack for launch week.
 Current working install path:
 
 ```bash
-pipx install git+https://github.com/amenti-labs/opendivination.git
+pipx install opendivination
+npx skills add amenti-labs/opendivination --skill divination
 opendivination setup
 ```
 
-If PyPI is live by the time you post, replace the install command with:
+GitHub fallback:
 
 ```bash
-pipx install opendivination
+pipx install git+https://github.com/amenti-labs/opendivination.git
 ```
 
 ## Show HN
@@ -46,7 +47,8 @@ https://github.com/amenti-labs/opendivination
 Quick start:
 
 ```bash
-pipx install git+https://github.com/amenti-labs/opendivination.git
+pipx install opendivination
+npx skills add amenti-labs/opendivination --skill divination
 opendivination setup
 opendivination draw iching --method yarrow --json
 ```
@@ -81,6 +83,12 @@ I’m not claiming randomness makes divination “scientific.” I just wanted t
 
 Repo: https://github.com/amenti-labs/opendivination
 
+Skill install:
+
+```bash
+npx skills add amenti-labs/opendivination --skill divination
+```
+
 Install:
 
 ```bash
@@ -97,6 +105,12 @@ It gives an agent a clean way to do tarot or I Ching sessions through a real CLI
 It’s meant for symbolic guidance, journaling, reflection, and creative use, not factual advice.
 
 Repo: https://github.com/amenti-labs/opendivination
+
+Skill install:
+
+```bash
+npx skills add amenti-labs/opendivination --skill divination
+```
 
 ### r/tarot
 
@@ -164,7 +178,8 @@ I just think the entropy layer should be inspectable instead of hidden behind `M
 Quick start:
 
 ```bash
-pipx install git+https://github.com/amenti-labs/opendivination.git
+pipx install opendivination
+npx skills add amenti-labs/opendivination --skill divination
 opendivination setup
 opendivination draw tarot --json
 ```

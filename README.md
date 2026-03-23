@@ -47,6 +47,7 @@ Recommended agent flow:
 
 ```bash
 pipx install opendivination
+npx skills add amenti-labs/opendivination --skill divination
 opendivination setup
 opendivination sources --json
 ```
@@ -383,7 +384,7 @@ skill.
 For the skill, the easiest setup is:
 
 1. install the CLI with `pipx install opendivination`
-2. install the `divination` skill bundle into your OpenClaw skills directory
+2. install the `divination` skill bundle with `npx skills add amenti-labs/opendivination --skill divination`
 3. use QRNG or resonance only when you intentionally opt in to them
 
 For QCicada hardware support through `pipx`, use Python 3.13 explicitly:
