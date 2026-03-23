@@ -5,6 +5,9 @@
 <h1 align="center">OpenDivination</h1>
 
 <p align="center">
+  <a href="https://pypi.org/project/opendivination/">
+    <img src="https://img.shields.io/pypi/v/opendivination" alt="PyPI">
+  </a>
   <a href="https://github.com/amenti-labs/opendivination/actions/workflows/ci.yml">
     <img src="https://github.com/amenti-labs/opendivination/actions/workflows/ci.yml/badge.svg" alt="CI">
   </a>
