@@ -10,6 +10,7 @@ from typing import Any
 
 import httpx
 
+from opendivination.config import configured_remote_source_api_key
 from opendivination.types import SourceHealth
 
 # ── Error hierarchy (ported from outshift-qrng-sdk/src/errors.ts) ─────
@@ -89,7 +90,10 @@ class OutshiftSource:
 
     def __init__(self, api_key: str | None = None) -> None:
         self._api_key: str | None = (
-            api_key or os.environ.get("OUTSHIFT_API_KEY") or self._read_config()
+            api_key
+            or os.environ.get("OUTSHIFT_API_KEY")
+            or configured_remote_source_api_key("outshift")
+            or self._read_config()
         )
         self._cache: bytes = b""
         self._bytes_served: int = 0

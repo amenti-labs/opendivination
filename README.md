@@ -1,4 +1,8 @@
-# OpenDivination
+<p align="center">
+  <img src="assets/logo.png" alt="OpenDivination" width="180">
+</p>
+
+<h1 align="center">OpenDivination</h1>
 
 OpenDivination is a lightweight oracle SDK and CLI for:
 
@@ -10,6 +14,46 @@ OpenDivination is a lightweight oracle SDK and CLI for:
 
 The product surface is intentionally small. Selection mode is the default. Resonance mode is a single opinionated text-first path built from the latest local QCicada experiments.
 
+## For Agents
+
+If you are an agent or you are pointing an agent at this repo, the intended bootstrap flow is:
+
+1. install the CLI
+2. install the `divination` skill bundle
+3. run `opendivination setup`
+4. ask the user which source path they want:
+   - regular computer RNG
+   - remote QRNG
+   - local hardware QRNG
+
+Recommended agent flow:
+
+```bash
+pipx install opendivination
+opendivination setup
+opendivination sources --json
+```
+
+If the user wants remote QRNG:
+
+- ask whether they want `anu` or `outshift`
+- if required, ask for the API key
+- save it through `opendivination setup`
+
+If the user wants local hardware:
+
+- prefer `qcicada`
+- if `qcicada` is not available, keep `csprng` and explain that the hardware path is not ready yet
+- do not silently switch users onto the mixed `openentropy` aggregate unless they explicitly want that
+
+Important default:
+
+- `openentropy` is **not** the default source
+- `csprng` is the default source until the user explicitly changes it
+- `openentropy` is only used when the user explicitly selects local hardware
+
+Use `opendivination setup --json` if the agent wants a structured result.
+
 ## Install
 
 ```bash
@@ -18,9 +62,6 @@ pipx install opendivination
 
 # Python SDK install
 pip install opendivination
-
-# Hardware QRNG support
-pip install "opendivination[hardware]"
 ```
 
 The default install requires no QRNG device and no embedding model. Out of the box, draws use the
@@ -29,29 +70,66 @@ computer RNG source `csprng`.
 QCicada hardware support is currently verified on Python 3.13. The base package works on Python
 3.14, but the `openentropy` dependency does not build there yet.
 
+## Guided Setup
+
+The simplest onboarding path is:
+
+```bash
+opendivination setup
+```
+
+That guided command writes `~/.config/opendivination/config.json` and can:
+
+- keep the default `csprng` path
+- switch to a remote QRNG provider like `anu` or `outshift`
+- store remote QRNG API keys in the config file
+- pick a detected local hardware source such as `qcicada`
+
+The config file is written with owner-only permissions when possible.
+
+Non-interactive examples:
+
+```bash
+opendivination setup --source-profile computer
+opendivination setup --source-profile remote_quantum --qrng-provider anu --api-key YOUR_KEY
+opendivination setup --source-profile local_hardware --hardware-source qcicada
+```
+
 ## Core Commands
 
 ```bash
 opendivination draw tarot --json
-opendivination draw tarot --mode resonance --json
 opendivination draw iching --method yarrow --json
 opendivination sources --json
 ```
 
-Those default to `--source csprng` unless you explicitly choose another source.
+Those default to your configured source, or `csprng` if you have not run setup yet.
 
 ## Source Modes
 
 OpenDivination has three practical source paths:
 
 - `csprng`: regular computer RNG, available by default, no extra setup
-- network QRNG: sources like `anu`, `qbert`, or `outshift`
+- network QRNG: sources like `anu` or `outshift`
 - hardware QRNG: sources like `qcicada` via `openentropy`
+
+If you want the closest thing to explicit non-classical entropy, the opinionated order is:
+
+- `qcicada?conditioning=raw&mode=raw`: best local quantum path, raw device output
+- `anu`: remote quantum API
+- `outshift`: remote quantum-origin API with provider-side post-processing
+- `openentropy`: mixed local physical entropy pool, useful but not a pure quantum source
 
 Check what is available on the current machine:
 
 ```bash
 opendivination sources --json
+```
+
+To save a preferred source for future draws:
+
+```bash
+opendivination setup
 ```
 
 If you care about trust or randomness provenance, always inspect:
@@ -69,8 +147,8 @@ print(result.card.name, result.orientation.value)
 print(result.provenance.source_id, result.provenance.is_quantum)
 ```
 
-The default source is `csprng`. To opt into QRNG, pass an explicit source such as `source="anu"` or
-`source="qcicada"`.
+The default source is your configured source, or `csprng` if unset. To opt into QRNG for one draw,
+pass an explicit source such as `source="anu"` or `source="qcicada"`.
 
 ## QRNG
 
@@ -79,6 +157,12 @@ Network QRNG examples:
 ```bash
 opendivination draw tarot --source anu --json
 opendivination draw iching --source anu --json
+```
+
+If you want future draws to use ANU by default:
+
+```bash
+opendivination setup --source-profile remote_quantum --qrng-provider anu --api-key YOUR_KEY
 ```
 
 Hardware QRNG with QCicada requires the optional hardware dependency and a working OpenEntropy /
@@ -93,6 +177,12 @@ opendivination draw tarot --source qcicada --json
 If `qcicada` does not show up in `sources --json`, the hardware path is not ready yet.
 If you are using Python 3.14, install the hardware path with Python 3.13 until `openentropy`
 supports 3.14.
+
+After the hardware stack is ready, you can save it as the default:
+
+```bash
+opendivination setup --source-profile local_hardware --hardware-source qcicada
+```
 
 ## Tarot Resonance
 
@@ -129,8 +219,9 @@ print(result.provenance.source_id, result.provenance.is_quantum)
 ```
 
 Resonance is opt-in. Standard tarot and I Ching draws do not need embeddings.
+Do not treat resonance as a base-install command; it requires a working embedding runtime.
 
-CLI:
+After embedding setup, CLI:
 
 ```bash
 opendivination draw tarot \
@@ -166,6 +257,9 @@ The simplest local embedding path is:
 1. install Ollama
 2. run `ollama pull nomic-embed-text`
 3. run `opendivination draw tarot --mode resonance --embed-provider local --embed-model nomic-embed-text --json`
+
+If Ollama is not running, `--embed-provider local` will fail unless you separately install
+`sentence-transformers` and use `--embed-provider sentence_transformers`.
 
 ## Coherence Scoring
 
@@ -242,7 +336,6 @@ Named sources include:
 - `qcicada`
 - `openentropy:qcicada`
 - `anu`
-- `qbert`
 - `outshift`
 - `csprng`
 

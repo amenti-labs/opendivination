@@ -37,12 +37,19 @@ mypy src
 Canonical agent commands:
 
 ```bash
+opendivination setup --json
 opendivination draw tarot --json
 opendivination draw tarot --question "What should I focus on?" --embed-provider local --json
 opendivination draw iching --method yarrow --json
 opendivination draw iching --question "How do I proceed?" --embed-provider local --json
 opendivination sources --json
 ```
+
+Source defaults:
+
+- `csprng` is the default source unless the user has explicitly changed it with `setup`
+- `openentropy` is not a default; treat it as an opt-in local hardware path
+- prefer `qcicada` over the aggregate `openentropy` source when the user wants the strongest explicit quantum path
 
 Skill helper:
 

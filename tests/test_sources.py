@@ -215,3 +215,10 @@ def test_registry_auto_detect_has_csprng() -> None:
     detected = asyncio.run(registry.auto_detect())
     names = {source.name for source in detected}
     assert "csprng" in names
+
+
+def test_registry_only_registers_supported_builtin_sources() -> None:
+    registry = SourceRegistry()
+    listed = registry.list_sources()
+    names = {source.name for source in listed}
+    assert names <= {"anu", "outshift", "openentropy", "csprng"}

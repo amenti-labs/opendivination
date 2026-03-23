@@ -7,6 +7,7 @@ import time
 
 import httpx
 
+from opendivination.config import configured_remote_source_api_key
 from opendivination.types import SourceHealth
 
 # ANU QRNG API endpoint — returns uint8 arrays of quantum random bytes
@@ -34,7 +35,11 @@ class ANUSource:
     description: str = "ANU QRNG \u2014 photon vacuum fluctuation (quantum.anu.edu.au)"
 
     def __init__(self, api_key: str | None = None) -> None:
-        self._api_key = api_key or os.environ.get("ANU_API_KEY")
+        self._api_key = (
+            api_key
+            or os.environ.get("ANU_API_KEY")
+            or configured_remote_source_api_key("anu")
+        )
         self._cache: bytes = b""
         self._bytes_served: int = 0
         self._last_success: float | None = None

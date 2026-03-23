@@ -9,8 +9,8 @@
 ## Core Commands
 
 ```bash
+python3 scripts/run_opendivination.py setup
 python3 scripts/run_opendivination.py draw tarot --json
-python3 scripts/run_opendivination.py draw tarot --mode resonance --json
 python3 scripts/run_opendivination.py draw iching --method yarrow --json
 python3 scripts/run_opendivination.py sources --json
 python3 scripts/run_opendivination.py version
@@ -25,6 +25,7 @@ python3 scripts/run_opendivination.py draw tarot --json
 ```
 
 Stable resonance:
+Only after embedding setup:
 
 ```bash
 python3 scripts/run_opendivination.py draw tarot \
@@ -70,6 +71,12 @@ Useful fields:
 
 ## Config
 
+Guided setup:
+
+```bash
+python3 scripts/run_opendivination.py setup
+```
+
 Resonance card text can be overridden with:
 
 - `~/.config/opendivination/config.json`
@@ -86,7 +93,16 @@ skills/divination/examples/config.json
 Network QRNG:
 
 - `anu` works without extra package installation
-- `qbert` and `outshift` may require provider credentials
+- `outshift` may require provider credentials
+
+Persistent remote QRNG config:
+
+```bash
+python3 scripts/run_opendivination.py setup \
+  --source-profile remote_quantum \
+  --qrng-provider anu \
+  --api-key YOUR_KEY
+```
 
 Hardware QRNG:
 
@@ -98,6 +114,14 @@ python3 scripts/run_opendivination.py draw tarot --source qcicada --json
 
 If `qcicada` is not listed in `sources --json`, the local hardware stack is not ready yet.
 The QCicada / `openentropy` path is currently verified on Python 3.13 rather than Python 3.14.
+
+Persistent hardware default:
+
+```bash
+python3 scripts/run_opendivination.py setup \
+  --source-profile local_hardware \
+  --hardware-source qcicada
+```
 
 ## Resonance Setup
 
@@ -111,6 +135,9 @@ python3 scripts/run_opendivination.py draw tarot \
   --embed-model nomic-embed-text \
   --json
 ```
+
+If Ollama is unavailable, `--embed-provider local` falls back to `sentence-transformers`, which
+must be installed separately.
 
 QRNG-backed resonance:
 

@@ -23,6 +23,7 @@ Stable default behavior:
 - use `csprng` unless the user explicitly asks for QRNG
 - use standard selection mode unless the user explicitly asks for resonance
 - use resonance only when an embedding provider is actually available
+- prefer `setup` when the user wants a persistent source preference or QRNG credential storage
 
 ## Use When
 
@@ -47,10 +48,7 @@ python3 scripts/run_opendivination.py draw tarot --source csprng --json
 ```
 
 Tarot resonance:
-
-```bash
-python3 scripts/run_opendivination.py draw tarot --mode resonance --source csprng --json
-```
+Only after embedding setup. Prefer the explicit form in the Resonance section below.
 
 I Ching:
 
@@ -62,6 +60,12 @@ Sources:
 
 ```bash
 python3 scripts/run_opendivination.py sources --json
+```
+
+Setup:
+
+```bash
+python3 scripts/run_opendivination.py setup
 ```
 
 ## When Not To Use Divination
@@ -182,6 +186,9 @@ python3 scripts/run_opendivination.py draw tarot \
   --json
 ```
 
+This is not a base-install command. It assumes Ollama is running with `nomic-embed-text` already
+pulled, or that the user explicitly chose another working embedding provider.
+
 ## Card Text Config
 
 Tarot card text can be overridden with JSON:
@@ -216,11 +223,23 @@ python3 -m pipx install opendivination
 python3 -m pipx install --python python3.13 'opendivination[hardware]'  # optional QCicada support
 ```
 
+First-run setup:
+
+```bash
+opendivination setup
+```
+
+Use setup when the user wants to:
+
+- store an ANU or Outshift API key
+- choose a persistent default source
+- switch to QCicada once local hardware is ready
+
 Published SDK:
 
 ```bash
 python3 -m pip install opendivination
-python3 -m pip install "opendivination[hardware]"
+python3.13 -m pip install "opendivination[hardware]"  # optional QCicada support
 ```
 
 Local repo:

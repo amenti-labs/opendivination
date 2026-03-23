@@ -25,7 +25,6 @@ You will receive a response within 72 hours. If the issue is confirmed, we will 
 Never commit API keys to version control. OpenDivination reads keys from environment variables only.
 
 ### QRNG source keys
-- `QBERT_API_KEY`
 - `ANU_API_KEY`
 - `OUTSHIFT_API_KEY`
 

@@ -486,14 +486,14 @@ class GeminiEmbeddingProvider:
             )
             for content in contents
         ]
+        headers = {"Content-Type": "application/json"}
+        if self._api_key is not None:
+            headers["x-goog-api-key"] = self._api_key
         async with httpx.AsyncClient(timeout=self._timeout) as client:
             response = await self._post_with_retries(
                 client,
                 f"{self._base_url}/models/{self.info.model}:batchEmbedContents",
-                headers={
-                    "Content-Type": "application/json",
-                    "x-goog-api-key": self._api_key,
-                },
+                headers=headers,
                 json={"requests": requests},
             )
         response.raise_for_status()
@@ -514,16 +514,16 @@ class GeminiEmbeddingProvider:
         output_dimensions: int | None,
     ) -> list[list[float]]:
         semaphore = asyncio.Semaphore(self._MAX_INDIVIDUAL_REQUEST_CONCURRENCY)
+        headers = {"Content-Type": "application/json"}
+        if self._api_key is not None:
+            headers["x-goog-api-key"] = self._api_key
 
         async def embed_one(index: int, content: EmbeddingContent) -> tuple[int, list[float]]:
             async with semaphore:
                 response = await self._post_with_retries(
                     client,
                     f"{self._base_url}/models/{self.info.model}:embedContent",
-                    headers={
-                        "Content-Type": "application/json",
-                        "x-goog-api-key": self._api_key,
-                    },
+                    headers=headers,
                     json=self._build_request(
                         content,
                         task_type=task_type,
@@ -758,9 +758,16 @@ def create_embedding_provider(
                 model=model or "nomic-embed-text",
                 dimensions=dimensions,
             )
-        return SentenceTransformersEmbeddingProvider(
-            model=model or "sentence-transformers/all-MiniLM-L6-v2"
-        )
+        try:
+            return SentenceTransformersEmbeddingProvider(
+                model=model or "sentence-transformers/all-MiniLM-L6-v2"
+            )
+        except EmbeddingError as exc:
+            raise EmbeddingError(
+                "No local embedding runtime available. Start Ollama and pull "
+                "`nomic-embed-text`, or install `sentence-transformers` and use "
+                "`--embed-provider sentence_transformers`."
+            ) from exc
     if normalized in {"ollama"}:
         return OllamaEmbeddingProvider(
             model=model or "nomic-embed-text",

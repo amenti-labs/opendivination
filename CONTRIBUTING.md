@@ -36,7 +36,7 @@ For coverage:
 pytest --cov=src/opendivination --cov-report=term-missing
 ```
 
-Tests that require network access (ANU QRNG, Qbert, Outshift) are marked with `@pytest.mark.network` and skipped by default. Run them explicitly:
+Tests that require network access (ANU QRNG, Outshift) are marked with `@pytest.mark.network` and skipped by default. Run them explicitly:
 
 ```bash
 pytest -m network

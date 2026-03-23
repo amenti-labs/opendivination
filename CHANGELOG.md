@@ -32,7 +32,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Entropy source registry with ordered fallback chain
 - openentropy hardware adapter (optional, requires `[hardware]` extra)
 - ANU QRNG network adapter (photon vacuum fluctuation)
-- Qbert QRNG network adapter (quantum tunneling, requires `QBERT_API_KEY`)
 - Outshift QRNG network adapter (Cisco QRNG, requires `OUTSHIFT_API_KEY`)
 - CSPRNG software fallback (always available)
 - Tarot corpus: 78 cards (22 major arcana + 56 minor arcana) with images

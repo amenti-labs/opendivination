@@ -3,10 +3,14 @@
 from __future__ import annotations
 
 import os
+from contextlib import suppress
 from pathlib import Path
 from string import Formatter
+from typing import Literal
 
 from pydantic import BaseModel, ConfigDict, Field, field_validator
+
+from opendivination.types import DEFAULT_ENTROPY_SOURCE
 
 _TAROT_TEMPLATE_FIELDS = {
     "name",
@@ -63,11 +67,48 @@ class TarotConfig(BaseModel):
     card_text: TarotCardTextConfig = Field(default_factory=TarotCardTextConfig)
 
 
+class RemoteSourceConfig(BaseModel):
+    """Configurable settings for one remote QRNG provider."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    api_key: str | None = None
+
+
+class SourcesConfig(BaseModel):
+    """Configured entropy-source defaults and remote-provider credentials."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    default: str = DEFAULT_ENTROPY_SOURCE
+    anu: RemoteSourceConfig = Field(default_factory=RemoteSourceConfig)
+    outshift: RemoteSourceConfig = Field(default_factory=RemoteSourceConfig)
+
+
+class ResonanceDefaultsConfig(BaseModel):
+    """Optional defaults for resonance provider selection."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    provider: str = "local"
+    model: str | None = "nomic-embed-text"
+
+
+class DefaultsConfig(BaseModel):
+    """Top-level UX defaults written by guided setup."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    resonance: ResonanceDefaultsConfig = Field(default_factory=ResonanceDefaultsConfig)
+
+
 class OpenDivinationConfig(BaseModel):
     """Root user configuration for OpenDivination."""
 
     model_config = ConfigDict(extra="forbid")
 
+    sources: SourcesConfig = Field(default_factory=SourcesConfig)
+    defaults: DefaultsConfig = Field(default_factory=DefaultsConfig)
     tarot: TarotConfig = Field(default_factory=TarotConfig)
 
 
@@ -97,11 +138,53 @@ def load_config(
     return OpenDivinationConfig.model_validate_json(resolved_path.read_text(encoding="utf-8"))
 
 
+def save_config(
+    config: OpenDivinationConfig,
+    path: str | Path | None = None,
+) -> Path:
+    """Persist config JSON and tighten file permissions for stored credentials."""
+
+    resolved_path = Path(path).expanduser() if path is not None else default_config_path()
+    resolved_path.parent.mkdir(parents=True, exist_ok=True)
+    resolved_path.write_text(
+        config.model_dump_json(indent=2, exclude_none=True) + "\n",
+        encoding="utf-8",
+    )
+    with suppress(OSError):
+        resolved_path.chmod(0o600)
+    return resolved_path
+
+
+def configured_default_source(path: str | Path | None = None) -> str:
+    """Return configured default source, or csprng when unset."""
+
+    return load_config(path, allow_missing=True).sources.default
+
+
+def configured_remote_source_api_key(
+    source_name: Literal["anu", "outshift"],
+    path: str | Path | None = None,
+) -> str | None:
+    """Return configured API key for a supported remote QRNG provider."""
+
+    config = load_config(path, allow_missing=True)
+    if source_name == "anu":
+        return config.sources.anu.api_key
+    return config.sources.outshift.api_key
+
+
 __all__ = [
+    "DefaultsConfig",
     "OpenDivinationConfig",
+    "RemoteSourceConfig",
+    "ResonanceDefaultsConfig",
+    "SourcesConfig",
+    "configured_default_source",
+    "configured_remote_source_api_key",
     "TarotCardTextConfig",
     "TarotCardTextProfileConfig",
     "TarotConfig",
     "default_config_path",
     "load_config",
+    "save_config",
 ]

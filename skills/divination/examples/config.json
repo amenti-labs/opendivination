@@ -1,4 +1,19 @@
 {
+  "sources": {
+    "default": "csprng",
+    "anu": {
+      "api_key": "replace-me-if-you-use-anu"
+    },
+    "outshift": {
+      "api_key": "replace-me-if-you-use-outshift"
+    }
+  },
+  "defaults": {
+    "resonance": {
+      "provider": "local",
+      "model": "nomic-embed-text"
+    }
+  },
   "tarot": {
     "card_text": {
       "profiles": {

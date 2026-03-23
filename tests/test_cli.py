@@ -165,3 +165,46 @@ def test_cli_sources_json() -> None:
     data = json.loads(proc.stdout)
     assert isinstance(data, list)
     assert any(item["name"] == "csprng" for item in data)
+
+
+def test_cli_setup_writes_computer_profile(tmp_path: Path) -> None:
+    config_path = tmp_path / "opendivination.json"
+
+    proc = _run_cli(
+        "setup",
+        "--config",
+        str(config_path),
+        "--source-profile",
+        "computer",
+        "--json",
+    )
+
+    assert proc.returncode == 0, proc.stderr
+    data = json.loads(proc.stdout)
+    assert data["default_source"] == "csprng"
+    written = json.loads(config_path.read_text(encoding="utf-8"))
+    assert written["sources"]["default"] == "csprng"
+
+
+def test_cli_setup_writes_remote_qrng_credentials(tmp_path: Path) -> None:
+    config_path = tmp_path / "opendivination.json"
+
+    proc = _run_cli(
+        "setup",
+        "--config",
+        str(config_path),
+        "--source-profile",
+        "remote_quantum",
+        "--qrng-provider",
+        "anu",
+        "--api-key",
+        "anu-test-key",
+        "--json",
+    )
+
+    assert proc.returncode == 0, proc.stderr
+    data = json.loads(proc.stdout)
+    assert data["default_source"] == "anu"
+    written = json.loads(config_path.read_text(encoding="utf-8"))
+    assert written["sources"]["default"] == "anu"
+    assert written["sources"]["anu"]["api_key"] == "anu-test-key"

@@ -159,16 +159,10 @@ class SourceRegistry:
             priority=20,
         )
         self._try_register_optional_source(
-            name="qbert",
-            module_path="opendivination.sources.qbert",
-            class_names=("QbertSource",),
-            priority=30,
-        )
-        self._try_register_optional_source(
             name="outshift",
             module_path="opendivination.sources.outshift",
             class_names=("OutshiftSource",),
-            priority=40,
+            priority=30,
         )
 
         self.register(CSPRNGSource(), priority=99)

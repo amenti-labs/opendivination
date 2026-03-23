@@ -6,7 +6,11 @@ from pathlib import Path
 
 from opendivination.config import OpenDivinationConfig
 from opendivination.embeddings import EmbeddingCache
-from opendivination.embeddings.providers import DeterministicEmbeddingProvider
+from opendivination.embeddings.base import EmbeddingError
+from opendivination.embeddings.providers import (
+    DeterministicEmbeddingProvider,
+    create_embedding_provider,
+)
 from opendivination.oracles.resonance import (
     DEFAULT_RESONANCE_ENTROPY_BYTES,
     DEFAULT_RESONANCE_SHORTLIST_SIZE,
@@ -115,3 +119,20 @@ def test_prepare_tarot_resonance_corpus_uses_cache(tmp_path) -> None:
     assert first.cache_path == second.cache_path
     payload = json.loads(Path(first.cache_path).read_text(encoding="utf-8"))
     assert payload["variant_id"] == first.cache_variant
+
+
+def test_local_provider_error_is_actionable_when_no_runtime(monkeypatch) -> None:
+    monkeypatch.setattr(
+        "opendivination.embeddings.providers._probe_ollama",
+        lambda timeout=1.0: False,
+    )
+
+    try:
+        create_embedding_provider("local")
+    except EmbeddingError as exc:
+        message = str(exc)
+        assert "No local embedding runtime available" in message
+        assert "Ollama" in message
+        assert "sentence-transformers" in message
+    else:
+        raise AssertionError("Expected local provider creation to fail without a local runtime")
