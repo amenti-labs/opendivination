@@ -4,6 +4,20 @@
 
 <h1 align="center">OpenDivination</h1>
 
+<p align="center">
+  <a href="https://github.com/amenti-labs/opendivination/actions/workflows/ci.yml">
+    <img src="https://github.com/amenti-labs/opendivination/actions/workflows/ci.yml/badge.svg" alt="CI">
+  </a>
+  <a href="https://github.com/amenti-labs/opendivination/blob/main/LICENSE">
+    <img src="https://img.shields.io/github/license/amenti-labs/opendivination" alt="License">
+  </a>
+  <img src="https://img.shields.io/badge/python-3.10%20%7C%203.11%20%7C%203.12%20%7C%203.13%20%7C%203.14-blue" alt="Python versions">
+</p>
+
+<p align="center">
+  <img src="assets/hero.gif" alt="OpenDivination terminal demo" width="900">
+</p>
+
 OpenDivination is a lightweight oracle SDK and CLI for:
 
 - tarot draws
