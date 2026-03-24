@@ -29,375 +29,95 @@ OpenDivination is a lightweight oracle SDK and CLI for:
 - one stable text-only tarot resonance mode
 - coherence scoring (semantic similarity between question and drawn symbol)
 
-The product surface is intentionally small. Selection mode is the default. Resonance mode is a single opinionated text-first path built from the latest local QCicada experiments.
+The product surface is intentionally small:
 
-## For Agents
+- selection mode by default
+- `csprng` by default
+- QRNG and resonance are opt-in
 
-If you are an agent or you are pointing an agent at this repo, the intended bootstrap flow is:
-
-1. install the CLI
-2. install the `divination-setup` and `divination` skill bundles
-3. use `divination-setup` for first-run onboarding and persistent config
-4. use `divination` for readings, casts, source inspection, and provenance reporting
-5. ask the user which source path they want:
-   - regular computer RNG
-   - remote QRNG
-   - local hardware QRNG
-
-Recommended agent flow:
+## Quickstart
 
 ```bash
 pipx install opendivination
-npx skills add amenti-labs/opendivination --skill divination-setup --skill divination
 opendivination setup
+opendivination draw tarot --json
+opendivination draw iching --method yarrow --json
 opendivination sources --json
-```
-
-If PyPI is temporarily unavailable, use the GitHub repo directly:
-
-```bash
-pipx install git+https://github.com/amenti-labs/opendivination.git
-```
-
-If the user wants remote QRNG:
-
-- ask whether they want `anu` or `outshift`
-- if required, ask for the API key
-- save it through `opendivination setup`
-
-If the user wants local hardware:
-
-- prefer `qcicada`
-- if `qcicada` is not available, keep `csprng` and explain that the hardware path is not ready yet
-- do not silently switch users onto the mixed `openentropy` aggregate unless they explicitly want that
-
-Important default:
-
-- `openentropy` is **not** the default source
-- `csprng` is the default source until the user explicitly changes it
-- `openentropy` is only used when the user explicitly selects local hardware
-
-Use `opendivination setup --json` if the agent wants a structured result.
-
-## Install
-
-```bash
-# Easiest CLI install
-pipx install opendivination
-
-# Python SDK install
-pip install opendivination
 ```
 
 GitHub fallback:
 
 ```bash
 pipx install git+https://github.com/amenti-labs/opendivination.git
-pip install git+https://github.com/amenti-labs/opendivination.git
-```
-
-The default install requires no QRNG device and no embedding model. Out of the box, draws use the
-computer RNG source `csprng`.
-
-QCicada hardware support is currently verified on Python 3.13. The base package works on Python
-3.14, but the `openentropy` dependency does not build there yet.
-
-## Guided Setup
-
-The simplest onboarding path is:
-
-```bash
-opendivination setup
-```
-
-That guided command writes `~/.config/opendivination/config.json` and can:
-
-- keep the default `csprng` path
-- switch to a remote QRNG provider like `anu` or `outshift`
-- store remote QRNG API keys in the config file
-- pick a detected local hardware source such as `qcicada`
-
-The config file is written with owner-only permissions when possible.
-
-Non-interactive examples:
-
-```bash
-opendivination setup --source-profile computer
-opendivination setup --source-profile remote_quantum --qrng-provider anu --api-key YOUR_KEY
-opendivination setup --source-profile local_hardware --hardware-source qcicada
-```
-
-## Core Commands
-
-```bash
-opendivination draw tarot --json
-opendivination draw iching --method yarrow --json
-opendivination sources --json
-```
-
-Those default to your configured source, or `csprng` if you have not run setup yet.
-
-## Source Modes
-
-OpenDivination has three practical source paths:
-
-- `csprng`: regular computer RNG, available by default, no extra setup
-- network QRNG: sources like `anu` or `outshift`
-- hardware QRNG: sources like `qcicada` via `openentropy`
-
-If you want the closest thing to explicit non-classical entropy, the opinionated order is:
-
-- `qcicada?conditioning=raw&mode=raw`: best local quantum path, raw device output
-- `anu`: remote quantum API
-- `outshift`: remote quantum-origin API with provider-side post-processing
-- `openentropy`: mixed local physical entropy pool, useful but not a pure quantum source
-
-Check what is available on the current machine:
-
-```bash
-opendivination sources --json
-```
-
-To save a preferred source for future draws:
-
-```bash
-opendivination setup
-```
-
-If you care about trust or randomness provenance, always inspect:
-
-- `provenance.source_id`
-- `provenance.is_quantum`
-
-## Tarot
-
-```python
-from opendivination.oracles.tarot import draw_tarot_sync
-
-result = draw_tarot_sync(source="csprng")
-print(result.card.name, result.orientation.value)
-print(result.provenance.source_id, result.provenance.is_quantum)
-```
-
-The default source is your configured source, or `csprng` if unset. To opt into QRNG for one draw,
-pass an explicit source such as `source="anu"` or `source="qcicada"`.
-
-## QRNG
-
-Network QRNG examples:
-
-```bash
-opendivination draw tarot --source anu --json
-opendivination draw iching --source anu --json
-```
-
-If you want future draws to use ANU by default:
-
-```bash
-opendivination setup --source-profile remote_quantum --qrng-provider anu --api-key YOUR_KEY
-```
-
-Hardware QRNG with QCicada requires the optional hardware dependency and a working OpenEntropy /
-QCicada setup:
-
-```bash
-python3.13 -m pip install "opendivination[hardware]"
-opendivination sources --json
-opendivination draw tarot --source qcicada --json
-```
-
-If `qcicada` does not show up in `sources --json`, the hardware path is not ready yet.
-If you are using Python 3.14, install the hardware path with Python 3.13 until `openentropy`
-supports 3.14.
-
-After the hardware stack is ready, you can save it as the default:
-
-```bash
-opendivination setup --source-profile local_hardware --hardware-source qcicada
-```
-
-## Tarot Resonance
-
-Resonance is now one stable text-only algorithm:
-
-1. sample raw entropy
-2. choose a small uniform shortlist from the deck
-3. render each shortlisted card as text
-4. render the entropy as `bare_hex_spaced`
-5. embed both with the chosen text embedding model
-6. pick the closest card inside the shortlist
-
-Stable defaults:
-
-- tarot card text: `descriptive`
-- entropy text: `bare_hex_spaced`
-- entropy bytes: `256`
-- shortlist size: `3`
-- entropy source default: `csprng`
-- local provider: `local`
-- local model: Ollama `nomic-embed-text`
-
-```python
-from opendivination.embeddings.providers import create_embedding_provider
-from opendivination.oracles.tarot import draw_tarot_by_resonance_sync
-
-provider = create_embedding_provider("local", model="nomic-embed-text")
-result = draw_tarot_by_resonance_sync(
-    provider=provider,
-    source="csprng",
-)
-print(result.card.name, result.score)
-print(result.provenance.source_id, result.provenance.is_quantum)
-```
-
-Resonance is opt-in. Standard tarot and I Ching draws do not need embeddings.
-Do not treat resonance as a base-install command; it requires a working embedding runtime.
-
-After embedding setup, CLI:
-
-```bash
-opendivination draw tarot \
-  --mode resonance \
-  --embed-provider local \
-  --embed-model nomic-embed-text \
-  --json
-```
-
-For a QRNG-backed resonance draw, add an explicit source:
-
-```bash
-opendivination draw tarot \
-  --mode resonance \
-  --embed-provider local \
-  --embed-model nomic-embed-text \
-  --source qcicada \
-  --json
-```
-
-Supported stable embedding runtimes:
-
-- `local`
-- `ollama`
-- `sentence_transformers`
-- `openai`
-- `openai_compatible`
-- `gemini`
-- `deterministic` for tests
-
-The simplest local embedding path is:
-
-1. install Ollama
-2. run `ollama pull nomic-embed-text`
-3. run `opendivination draw tarot --mode resonance --embed-provider local --embed-model nomic-embed-text --json`
-
-If Ollama is not running, `--embed-provider local` will fail unless you separately install
-`sentence-transformers` and use `--embed-provider sentence_transformers`.
-
-## Coherence Scoring
-
-Pass a question with `--question` / `-q` to get a coherence score — how semantically similar your
-question is to the drawn symbol's meaning. Works with both tarot and I Ching:
-
-```bash
-opendivination draw tarot -q "What should I focus on?" --embed-provider local --json
-opendivination draw iching -q "How should I approach this conflict?" --embed-provider local --json
 ```
 
 Python SDK:
 
-```python
-from opendivination.embeddings.providers import create_embedding_provider
-from opendivination.oracles.tarot import draw_tarot_sync
-
-provider = create_embedding_provider("local")
-result = draw_tarot_sync(source="csprng", question="What awaits?", provider=provider)
-if result.coherence:
-    print(f"Coherence: {result.coherence.score:.4f}")
+```bash
+pip install opendivination
 ```
 
-Coherence uses embedding cosine similarity — no LLM required. The question text is never stored;
-only a SHA-256 hash appears in the result. Coherence is fully optional: omit `--question` and
-draws work exactly as before.
+`opendivination setup` writes `~/.config/opendivination/config.json` and can keep the default
+`csprng` path, save remote QRNG credentials, or select detected local hardware.
 
-## JSON Card Text Config
+## Sources
 
-Tarot card text can be customized with JSON.
+OpenDivination supports three practical source paths:
 
-Default path:
+- `csprng`: default software RNG
+- remote QRNG: `anu` or `outshift`
+- local hardware: `qcicada` via `openentropy`
 
-```text
-~/.config/opendivination/config.json
-```
-
-You can also pass `--config /path/to/config.json`.
-
-Example:
-
-```json
-{
-  "tarot": {
-    "card_text": {
-      "profiles": {
-        "descriptive": {
-          "template": "Tarot card: {name}. Arcana: {arcana}. Suit: {suit}. Keywords: {keywords}.",
-          "overrides": {
-            "Death": "Tarot card: Death. Transformation, ending, and renewal."
-          }
-        }
-      }
-    }
-  }
-}
-```
-
-A copyable example also lives at `skills/divination/examples/config.json`.
-
-## Provenance
-
-When randomness or trust matters, use:
+If trust or randomness provenance matters, inspect:
 
 - `provenance.source_id`
 - `provenance.is_quantum`
 
-OpenDivination keeps interpretation separate from entropy facts. If the source is `csprng`, it is reported honestly as software entropy.
+Important defaults:
 
-## Sources
+- `csprng` remains the default until the user explicitly changes it
+- `openentropy` is not a default
+- prefer `qcicada` over the aggregate `openentropy` source when the user wants the strongest local quantum path
 
-Named sources include:
+QCicada hardware support is currently verified on Python 3.13. The base package works on Python
+3.14, but the `openentropy` dependency does not build there yet.
 
-- `qcicada`
-- `openentropy:qcicada`
-- `anu`
-- `outshift`
-- `csprng`
+## Resonance
 
-Inspect availability with:
+Resonance is a single stable text-only tarot path. It is opt-in and requires an embedding runtime.
 
 ```bash
-opendivination sources --json
+opendivination draw tarot \
+  --mode resonance \
+  --embed-provider local \
+  --embed-model nomic-embed-text \
+  --json
+```
+
+Coherence scoring is also opt-in:
+
+```bash
+opendivination draw tarot -q "What should I focus on?" --embed-provider local --json
+opendivination draw iching -q "How should I proceed?" --embed-provider local --json
 ```
 
 ## Skills
 
-The portable skill index is in `skills/AGENTS.md`.
-
-- `divination-setup` handles installation, updates, persistent source selection, QRNG credential
-  storage, and QCicada readiness checks.
-- `divination` handles tarot draws, I Ching casts, source inspection, and provenance-aware result
-  handling.
-
-For the skills, the easiest setup is:
-
-1. install the CLI with `pipx install opendivination`
-2. install both skill bundles with `npx skills add amenti-labs/opendivination --skill divination-setup --skill divination`
-3. use `divination-setup` for onboarding and `divination` for actual oracle calls
-4. use QRNG or resonance only when you intentionally opt in to them
-
-For QCicada hardware support through `pipx`, use Python 3.13 explicitly:
+OpenDivination ships two portable skills:
 
 ```bash
-pipx install --python python3.13 'opendivination[hardware]'
+npx skills add amenti-labs/opendivination --skill divination-setup --skill divination
 ```
+
+- `divination-setup` installs or updates OpenDivination and handles first-run source setup
+- `divination` performs tarot draws, I Ching casts, source inspection, and provenance-aware result handling
+
+Detailed docs:
+
+- `skills/AGENTS.md` for the portable skill index
+- `skills/divination-setup/SKILL.md` for setup and persistent source configuration
+- `skills/divination/SKILL.md` for runtime behavior and result handling
+- `skills/divination/references/cli.md` for CLI examples and QRNG/resonance notes
 
 ## Development
 

@@ -21,6 +21,12 @@ npx skills add amenti-labs/opendivination --skill divination-setup --skill divin
    configuration.
 2. Use `divination` after setup for actual oracle calls and interpretation.
 
+## References
+
+- `skills/divination-setup/SKILL.md` for install, upgrade, and persistent source setup
+- `skills/divination/SKILL.md` for tarot, I Ching, provenance, and runtime behavior
+- `skills/divination/references/cli.md` for command examples, QRNG notes, and resonance examples
+
 ## Supported Agents
 
 These skills are intended for any coding agent that supports the `SKILL.md` format.
