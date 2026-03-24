@@ -2,11 +2,16 @@
 
 This directory contains portable agent skills for OpenDivination.
 
-## Install
+## Quickstart
 
 ```bash
 npx skills add amenti-labs/opendivination --skill divination-setup --skill divination
 ```
+
+Use the skills in this order:
+
+1. Use `divination-setup` first to bootstrap the CLI and write persistent source configuration.
+2. Use `divination` after setup for actual oracle calls and interpretation.
 
 ## Skills
 
@@ -14,12 +19,6 @@ npx skills add amenti-labs/opendivination --skill divination-setup --skill divin
   credentials, and prepares the persistent source configuration.
 - `divination` performs tarot draws, I Ching casts, source inspection, and provenance-aware result
   handling.
-
-## Suggested Flow
-
-1. Use `divination-setup` first when the agent needs to bootstrap the CLI or write persistent
-   configuration.
-2. Use `divination` after setup for actual oracle calls and interpretation.
 
 ## References
 

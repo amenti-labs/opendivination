@@ -38,6 +38,27 @@ The product surface is intentionally small:
 ## Quickstart
 
 ```bash
+npx skills add amenti-labs/opendivination --skill divination-setup --skill divination
+```
+
+Use the skills in this order:
+
+- start with `divination-setup` to install or update OpenDivination and run first-run source setup
+- then use `divination` for tarot draws, I Ching casts, source inspection, and provenance-aware results
+- keep `csprng` as the default unless the user explicitly chooses QRNG or local hardware
+
+Detailed skill docs:
+
+- `skills/AGENTS.md`
+- `skills/divination-setup/SKILL.md`
+- `skills/divination/SKILL.md`
+- `skills/divination/references/cli.md`
+
+## CLI
+
+If you want to use OpenDivination directly without the skills:
+
+```bash
 pipx install opendivination
 opendivination setup
 opendivination draw tarot --json
@@ -100,24 +121,6 @@ Coherence scoring is also opt-in:
 opendivination draw tarot -q "What should I focus on?" --embed-provider local --json
 opendivination draw iching -q "How should I proceed?" --embed-provider local --json
 ```
-
-## Skills
-
-OpenDivination ships two portable skills:
-
-```bash
-npx skills add amenti-labs/opendivination --skill divination-setup --skill divination
-```
-
-- `divination-setup` installs or updates OpenDivination and handles first-run source setup
-- `divination` performs tarot draws, I Ching casts, source inspection, and provenance-aware result handling
-
-Detailed docs:
-
-- `skills/AGENTS.md` for the portable skill index
-- `skills/divination-setup/SKILL.md` for setup and persistent source configuration
-- `skills/divination/SKILL.md` for runtime behavior and result handling
-- `skills/divination/references/cli.md` for CLI examples and QRNG/resonance notes
 
 ## Development
 
