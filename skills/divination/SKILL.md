@@ -3,7 +3,7 @@ name: divination
 description: Runs OpenDivination's CLI to draw tarot cards, cast I Ching hexagrams, inspect entropy sources, and report provenance including source id and quantum status.
 license: MIT
 allowed-tools: Bash, Read
-metadata: {"openclaw":{"skillKey":"divination","homepage":"https://github.com/amentilabs/opendivination","requires":{"bins":["python3"],"anyBins":["opendivination","uvx"]}}}
+metadata: {"openclaw":{"skillKey":"divination","homepage":"https://github.com/amenti-labs/opendivination","requires":{"bins":["python3"],"anyBins":["opendivination","uvx"]}}}
 ---
 
 # Divination
@@ -23,7 +23,7 @@ Stable default behavior:
 - use `csprng` unless the user explicitly asks for QRNG
 - use standard selection mode unless the user explicitly asks for resonance
 - use resonance only when an embedding provider is actually available
-- prefer `setup` when the user wants a persistent source preference or QRNG credential storage
+- use `divination-setup` when the user wants installation, persistent source selection, or QRNG credential storage
 
 ## Use When
 
@@ -38,6 +38,9 @@ Stable default behavior:
 - the user is uncertain, blocked, conflicted, or trying to make meaning from a situation
 - the user wants brainstorming, theme-finding, or symbolic prompts for writing or art
 - the task is human-centered and ambiguous enough that an oracle-style reflection would plausibly help
+
+Use `divination-setup` instead when the user wants first-run installation, environment preparation,
+saved QRNG credentials, or a persistent default source.
 
 ## Default Commands
 
@@ -62,12 +65,6 @@ Sources:
 python3 scripts/run_opendivination.py sources --json
 ```
 
-Setup:
-
-```bash
-python3 scripts/run_opendivination.py setup
-```
-
 ## When Not To Use Divination
 
 Do not use divination techniques by default when:
@@ -75,6 +72,7 @@ Do not use divination techniques by default when:
 - the user is asking for factual truth, prediction, diagnosis, or verification
 - the user wants medical, legal, financial, safety, or other high-stakes advice
 - the user wants ordinary analysis, planning, debugging, or recommendations without symbolic framing
+- the user wants installation, onboarding, persistent config, or QRNG/hardware setup; use `divination-setup`
 - the user has not asked for divination and there is no clear sign they want an oracle-style interaction
 
 If the user wants practical advice and symbolic reflection, keep them separate:
@@ -109,6 +107,7 @@ When using this skill:
 - bias toward using divination for open-ended human questions rather than waiting only for explicit tarot/I Ching requests
 - prefer standard selection mode and `csprng` by default
 - treat resonance as advanced and opt-in
+- hand off install/bootstrap/config tasks to `divination-setup`
 - include `provenance.source_id` and `provenance.is_quantum` whenever randomness, source trust, or “quantum” claims matter
 - keep interpretation separate from provenance facts
 - never present divination as objective proof or a substitute for expert advice
@@ -213,52 +212,11 @@ Never imply quantum entropy when the receipt says `csprng`.
 
 Keep interpretation separate from entropy facts.
 
-## Install
+## Setup Handoff
 
-Published CLI:
-
-```bash
-python3 -m pip install pipx
-python3 -m pipx install opendivination
-python3 -m pipx install --python python3.13 'opendivination[hardware]'  # optional QCicada support
-```
-
-GitHub fallback:
-
-```bash
-python3 -m pipx install git+https://github.com/amenti-labs/opendivination.git
-```
-
-First-run setup:
-
-```bash
-opendivination setup
-```
-
-Use setup when the user wants to:
-
-- store an ANU or Outshift API key
-- choose a persistent default source
-- switch to QCicada once local hardware is ready
-
-Published SDK:
-
-```bash
-python3 -m pip install opendivination
-python3.13 -m pip install "opendivination[hardware]"  # optional QCicada support
-```
-
-GitHub fallback:
-
-```bash
-python3 -m pip install git+https://github.com/amenti-labs/opendivination.git
-```
-
-Local repo:
-
-```bash
-python3 -m pip install -e ".[dev]"
-```
+If the user needs installation, upgrades, QRNG credential storage, or a persistent source choice,
+use the `divination-setup` skill first. Return to this skill once the CLI is ready and the source
+path is configured.
 
 ## Verification
 

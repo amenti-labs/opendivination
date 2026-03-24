@@ -4,7 +4,7 @@
 
 - Python SDK in `src/opendivination/`
 - CLI via `opendivination ...`
-- Portable skill bundle in `skills/divination/`
+- Portable skill bundles in `skills/`
 - Repository-level instructions in `AGENTS.md`
 
 The MCP server was intentionally removed. Do not reintroduce MCP as the primary integration
@@ -13,10 +13,12 @@ surface unless there is an explicit product decision to do so.
 ## Read These First
 
 1. `README.md`
-2. `skills/divination/SKILL.md`
-3. `src/opendivination/types.py`
-4. `src/opendivination/cli/main.py`
-5. `tests/test_cli.py`
+2. `skills/AGENTS.md`
+3. `skills/divination-setup/SKILL.md`
+4. `skills/divination/SKILL.md`
+5. `src/opendivination/types.py`
+6. `src/opendivination/cli/main.py`
+7. `tests/test_cli.py`
 
 ## Core Commands
 
@@ -30,7 +32,7 @@ Quality checks:
 
 ```bash
 pytest
-ruff check src tests skills/divination/scripts
+ruff check src tests skills/divination/scripts skills/divination-setup/scripts
 mypy src
 ```
 
@@ -54,6 +56,7 @@ Source defaults:
 Skill helper:
 
 ```bash
+python3 skills/divination-setup/scripts/run_opendivination.py --check
 python3 skills/divination/scripts/run_opendivination.py --check
 ```
 
@@ -69,8 +72,8 @@ python3 skills/divination/scripts/run_opendivination.py --check
 ## Before Shipping Changes
 
 - Run `pytest`
-- Run `ruff check src tests skills/divination/scripts`
+- Run `ruff check src tests skills/divination/scripts skills/divination-setup/scripts`
 - Run `mypy src`
-- If the skill changed, verify `skills/divination/SKILL.md` still validates and that the
-  helper runner still works
-- Keep `README.md`, `AGENTS.md`, and `skills/divination/` aligned
+- If a skill changed, verify both `skills/divination-setup/SKILL.md` and
+  `skills/divination/SKILL.md` still validate and that the helper runners still work
+- Keep `README.md`, `AGENTS.md`, and `skills/` aligned

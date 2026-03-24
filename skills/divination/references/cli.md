@@ -9,7 +9,6 @@
 ## Core Commands
 
 ```bash
-python3 scripts/run_opendivination.py setup
 python3 scripts/run_opendivination.py draw tarot --json
 python3 scripts/run_opendivination.py draw iching --method yarrow --json
 python3 scripts/run_opendivination.py sources --json
@@ -69,9 +68,10 @@ Useful fields:
 - `is_quantum`
 - `available`
 
-## Config
+## Persistent Config
 
-Guided setup:
+Use the `divination-setup` skill when the user wants to write or change persistent config.
+The runtime commands are still useful for reference:
 
 ```bash
 python3 scripts/run_opendivination.py setup
@@ -150,22 +150,7 @@ python3 scripts/run_opendivination.py draw tarot \
   --json
 ```
 
-## Install
+## Setup Handoff
 
-```bash
-python3 -m pip install pipx
-python3 -m pipx install opendivination
-python3 -m pipx install --python python3.13 'opendivination[hardware]'  # optional QCicada support
-```
-
-GitHub fallback:
-
-```bash
-python3 -m pipx install git+https://github.com/amenti-labs/opendivination.git
-```
-
-Local repo:
-
-```bash
-python3 -m pip install -e ".[dev]"
-```
+For installation, upgrades, skill-bundle bootstrap, or hardware preparation, use the
+`divination-setup` skill.

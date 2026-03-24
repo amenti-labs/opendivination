@@ -36,9 +36,10 @@ The product surface is intentionally small. Selection mode is the default. Reson
 If you are an agent or you are pointing an agent at this repo, the intended bootstrap flow is:
 
 1. install the CLI
-2. install the `divination` skill bundle
-3. run `opendivination setup`
-4. ask the user which source path they want:
+2. install the `divination-setup` and `divination` skill bundles
+3. use `divination-setup` for first-run onboarding and persistent config
+4. use `divination` for readings, casts, source inspection, and provenance reporting
+5. ask the user which source path they want:
    - regular computer RNG
    - remote QRNG
    - local hardware QRNG
@@ -47,7 +48,7 @@ Recommended agent flow:
 
 ```bash
 pipx install opendivination
-npx skills add amenti-labs/opendivination --skill divination
+npx skills add amenti-labs/opendivination --skill divination-setup --skill divination
 opendivination setup
 opendivination sources --json
 ```
@@ -376,16 +377,21 @@ Inspect availability with:
 opendivination sources --json
 ```
 
-## Skill
+## Skills
 
-The OpenClaw skill bundle is in `skills/divination/SKILL.md` and installs as the `divination`
-skill.
+The portable skill index is in `skills/AGENTS.md`.
 
-For the skill, the easiest setup is:
+- `divination-setup` handles installation, updates, persistent source selection, QRNG credential
+  storage, and QCicada readiness checks.
+- `divination` handles tarot draws, I Ching casts, source inspection, and provenance-aware result
+  handling.
+
+For the skills, the easiest setup is:
 
 1. install the CLI with `pipx install opendivination`
-2. install the `divination` skill bundle with `npx skills add amenti-labs/opendivination --skill divination`
-3. use QRNG or resonance only when you intentionally opt in to them
+2. install both skill bundles with `npx skills add amenti-labs/opendivination --skill divination-setup --skill divination`
+3. use `divination-setup` for onboarding and `divination` for actual oracle calls
+4. use QRNG or resonance only when you intentionally opt in to them
 
 For QCicada hardware support through `pipx`, use Python 3.13 explicitly:
 
@@ -398,7 +404,8 @@ pipx install --python python3.13 'opendivination[hardware]'
 ```bash
 pip install -e ".[dev]"
 pytest
-ruff check src tests skills/divination/scripts
+ruff check src tests skills/divination/scripts skills/divination-setup/scripts
 mypy src
+python3 skills/divination-setup/scripts/run_opendivination.py --check
 python3 skills/divination/scripts/run_opendivination.py --check
 ```

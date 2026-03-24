@@ -89,7 +89,7 @@ def main() -> int:
 
     command = [*runner, *forwarded_args]
     print(
-        f"[opendivination-skill] using {runner_name}: {' '.join(command)}",
+        f"[opendivination-setup-skill] using {runner_name}: {' '.join(command)}",
         file=sys.stderr,
     )
     return _run(command)

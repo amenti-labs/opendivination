@@ -8,9 +8,14 @@ import subprocess
 import sys
 from pathlib import Path
 
+import pytest
+
 from opendivination import __version__
 
-SKILL_RUNNER = Path("skills/divination/scripts/run_opendivination.py")
+SKILL_RUNNERS = (
+    Path("skills/divination/scripts/run_opendivination.py"),
+    Path("skills/divination-setup/scripts/run_opendivination.py"),
+)
 
 
 def _runner_override() -> str:
@@ -20,12 +25,13 @@ def _runner_override() -> str:
     return shlex.join([sys.executable, "-m", "opendivination.cli.main"])
 
 
-def test_skill_runner_check_with_override() -> None:
+@pytest.mark.parametrize("skill_runner", SKILL_RUNNERS)
+def test_skill_runner_check_with_override(skill_runner: Path) -> None:
     env = os.environ.copy()
     env["OPENDIVINATION_RUNNER"] = _runner_override()
 
     proc = subprocess.run(
-        ["python3", str(SKILL_RUNNER), "--check"],
+        ["python3", str(skill_runner), "--check"],
         capture_output=True,
         text=True,
         env=env,
@@ -37,12 +43,13 @@ def test_skill_runner_check_with_override() -> None:
     assert payload["runner"] == shlex.split(_runner_override())
 
 
-def test_skill_runner_version_with_override() -> None:
+@pytest.mark.parametrize("skill_runner", SKILL_RUNNERS)
+def test_skill_runner_version_with_override(skill_runner: Path) -> None:
     env = os.environ.copy()
     env["OPENDIVINATION_RUNNER"] = _runner_override()
 
     proc = subprocess.run(
-        ["python3", str(SKILL_RUNNER), "version"],
+        ["python3", str(skill_runner), "version"],
         capture_output=True,
         text=True,
         env=env,
