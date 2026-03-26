@@ -5,7 +5,7 @@ build-backend = "hatchling.build"
 [project]
 name = "opendivination"
 version = "0.1.0"
-description = "Quantum-entropy oracle SDK for divination systems"
+description = "Oracle SDK and CLI for human/LLM divination with auditable entropy provenance"
 readme = "README.md"
 license = {text = "MIT"}
 authors = [{name = "Amenti Labs"}]

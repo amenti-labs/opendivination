@@ -2,6 +2,14 @@
 
 This directory contains portable agent skills for OpenDivination.
 
+The split is intentional:
+
+- `divination-setup` handles install, update, and persistent entropy-source setup
+- `divination` handles actual divination sessions, source inspection, and provenance-aware results
+
+OpenDivination is built for both standard human/LLM divination sessions and agent-side symbolic
+reflection such as brainstorming or purpose-finding.
+
 ## Quickstart
 
 ```bash

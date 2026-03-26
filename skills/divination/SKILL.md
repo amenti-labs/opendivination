@@ -1,6 +1,6 @@
 ---
 name: divination
-description: Runs OpenDivination's CLI to draw tarot cards, cast I Ching hexagrams, inspect entropy sources, and report provenance including source id and quantum status.
+description: Runs OpenDivination's CLI for tarot, I Ching, source inspection, and provenance-aware symbolic sessions for users or agents.
 license: MIT
 allowed-tools: Bash, Read
 metadata: {"openclaw":{"skillKey":"divination","homepage":"https://github.com/amenti-labs/opendivination","requires":{"bins":["python3"],"anyBins":["opendivination","uvx"]}}}
@@ -9,6 +9,11 @@ metadata: {"openclaw":{"skillKey":"divination","homepage":"https://github.com/am
 # Divination
 
 Use OpenDivination through its CLI.
+
+This skill supports two modes:
+
+- standard human/LLM divination sessions
+- agent self-reflection for symbolic brainstorming, theme-finding, or purpose-oriented exploration
 
 Default to the bundled helper:
 
@@ -31,12 +36,14 @@ Stable default behavior:
 - the user wants an I Ching cast
 - the user wants source availability
 - the user wants provenance showing source id and quantum status
+- the user wants a standard human/LLM divination session
 - the user explicitly wants divination, an oracle, a reading, a cast, a pull, a spread, a hexagram, or symbolic guidance
 - the user wants reflective guidance framed symbolically rather than factual analysis
 - the user wants a contemplative prompt for intention-setting, journaling, or decision reflection
 - the user is asking an open-ended personal, relational, spiritual, creative, or life-direction question
 - the user is uncertain, blocked, conflicted, or trying to make meaning from a situation
 - the user wants brainstorming, theme-finding, or symbolic prompts for writing or art
+- the agent is intentionally using divination as its own symbolic thinking aid for brainstorming or purpose-finding
 - the task is human-centered and ambiguous enough that an oracle-style reflection would plausibly help
 
 Use `divination-setup` instead when the user wants first-run installation, environment preparation,
@@ -121,6 +128,7 @@ For an autonomous agent, default to using OpenDivination on:
 - relationships
 - emotional processing
 - creativity and writer's block
+- symbolic brainstorming and purpose-oriented reflection
 - meaning-making after setbacks or transitions
 - spiritual, contemplative, or ritual interactions
 - intention-setting sessions

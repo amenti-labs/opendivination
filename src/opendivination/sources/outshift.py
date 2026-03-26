@@ -66,7 +66,8 @@ _BASE_URL = "https://api.qrng.outshift.com"
 _ENDPOINT = "/api/v1/random_numbers"
 _MAX_RETRIES = 3
 _CONFIG_PATH = Path.home() / ".config" / "qrng" / "outshift.json"
-_CACHE_FETCH_SIZE = 1024  # bytes to prefetch per API call
+_MAX_BLOCKS_PER_REQUEST = 1000
+_CACHE_FETCH_SIZE = _MAX_BLOCKS_PER_REQUEST  # bytes to prefetch per API call
 
 
 # ── Source ────────────────────────────────────────────────────────────
@@ -79,8 +80,9 @@ class OutshiftSource:
     API key is resolved from (in order):
 
       1. Constructor argument
-      2. ``OUTSHIFT_API_KEY`` environment variable
-      3. ``~/.config/qrng/outshift.json`` config file
+      2. ``OUTSHIFT_QRNG_API_KEY`` environment variable
+      3. ``OUTSHIFT_API_KEY`` environment variable
+      4. ``~/.config/qrng/outshift.json`` config file
     """
 
     name: str = "outshift"
@@ -91,6 +93,7 @@ class OutshiftSource:
     def __init__(self, api_key: str | None = None) -> None:
         self._api_key: str | None = (
             api_key
+            or os.environ.get("OUTSHIFT_QRNG_API_KEY")
             or os.environ.get("OUTSHIFT_API_KEY")
             or configured_remote_source_api_key("outshift")
             or self._read_config()
@@ -108,7 +111,7 @@ class OutshiftSource:
 
         while len(self._cache) < n:
             needed = max(n - len(self._cache), _CACHE_FETCH_SIZE)
-            self._cache += await self._fetch_bytes(needed)
+            self._cache += await self._fetch_bytes(min(needed, _MAX_BLOCKS_PER_REQUEST))
 
         result = self._cache[:n]
         self._cache = self._cache[n:]
@@ -123,9 +126,14 @@ class OutshiftSource:
         if self._api_key is None:
             return False
         try:
-            # Minimal request: 1 sample of 8 bits
+            # Minimal request: 1 block of 1 bit
             await self._request(
-                {"number_of_bits": 8, "number_of_samples": 1},
+                {
+                    "bits_per_block": 1,
+                    "number_of_blocks": 1,
+                    "format": "decimal",
+                    "encoding": "raw",
+                },
                 timeout=1.5,
             )
             return True
@@ -162,7 +170,12 @@ class OutshiftSource:
 
     async def _fetch_bytes(self, n: int) -> bytes:
         """Fetch *n* bytes from the API and return raw bytes."""
-        body = {"number_of_bits": n * 8, "number_of_samples": 1}
+        body = {
+            "bits_per_block": 8,
+            "number_of_blocks": n,
+            "format": "decimal",
+            "encoding": "raw",
+        }
         resp = await self._request(body)
         return self._parse_bytes(resp, n)
 

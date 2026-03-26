@@ -21,7 +21,14 @@
   <img src="assets/hero.gif" alt="OpenDivination terminal demo" width="900">
 </p>
 
-OpenDivination is a lightweight oracle SDK and CLI for:
+OpenDivination is an experiment in what happens when LLMs get divination tools.
+
+It is built for two use cases:
+
+- standard human/LLM divination sessions
+- LLMs using divination for their own reflective thinking, brainstorming, and purpose-finding
+
+The current SDK and CLI cover:
 
 - tarot draws
 - I Ching casts
@@ -59,7 +66,7 @@ Detailed skill docs:
 If you want to use OpenDivination directly without the skills:
 
 ```bash
-pipx install opendivination
+uv tool install opendivination
 opendivination setup
 opendivination draw tarot --json
 opendivination draw iching --method yarrow --json
@@ -69,7 +76,7 @@ opendivination sources --json
 GitHub fallback:
 
 ```bash
-pipx install git+https://github.com/amenti-labs/opendivination.git
+uv tool install git+https://github.com/amenti-labs/opendivination.git
 ```
 
 Python SDK:
@@ -78,16 +85,22 @@ Python SDK:
 pip install opendivination
 ```
 
+If you prefer `pipx`, it also works for non-system Python installs.
+
 `opendivination setup` writes `~/.config/opendivination/config.json` and can keep the default
 `csprng` path, save remote QRNG credentials, or select detected local hardware.
 
 ## Sources
 
-OpenDivination supports three practical source paths:
+OpenDivination keeps `csprng` as the default, but the experiment can also use remote and physical
+quantum paths:
 
 - `csprng`: default software RNG
-- remote QRNG: `anu` or `outshift`
+- remote QRNG: prefer `outshift`, with `anu` also supported
 - local hardware: `qcicada` via `openentropy`
+
+For Outshift setup, create an account at `https://qrng.outshift.com/`, generate an API key, and
+either save it through `opendivination setup` or set `OUTSHIFT_QRNG_API_KEY` in your environment.
 
 If trust or randomness provenance matters, inspect:
 

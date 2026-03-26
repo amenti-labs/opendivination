@@ -5,6 +5,7 @@ import os
 
 from opendivination.core.registry import SourceRegistry
 from opendivination.sources import openentropy as openentropy_module
+from opendivination.sources.outshift import OutshiftSource
 from opendivination.sources.csprng import CSPRNGSource
 
 
@@ -222,3 +223,79 @@ def test_registry_only_registers_supported_builtin_sources() -> None:
     listed = registry.list_sources()
     names = {source.name for source in listed}
     assert names <= {"anu", "outshift", "openentropy", "csprng"}
+
+
+def test_outshift_source_uses_current_health_check_request_shape() -> None:
+    source = OutshiftSource(api_key="test-key")
+    calls: list[tuple[dict[str, object], float]] = []
+
+    async def fake_request(body: dict[str, object], *, timeout: float = 10.0) -> dict[str, object]:
+        calls.append((body, timeout))
+        return {"encoding": "raw", "random_numbers": [{"decimal": "1"}]}
+
+    source._request = fake_request  # type: ignore[method-assign]
+
+    assert asyncio.run(source.is_available()) is True
+    assert calls == [
+        (
+            {
+                "bits_per_block": 1,
+                "number_of_blocks": 1,
+                "format": "decimal",
+                "encoding": "raw",
+            },
+            1.5,
+        )
+    ]
+
+
+def test_outshift_source_fetches_bytes_with_bits_per_block_and_block_count() -> None:
+    source = OutshiftSource(api_key="test-key")
+    seen_bodies: list[dict[str, object]] = []
+
+    async def fake_request(body: dict[str, object], *, timeout: float = 10.0) -> dict[str, object]:
+        seen_bodies.append(body)
+        count = int(body["number_of_blocks"])
+        return {
+            "encoding": "raw",
+            "random_numbers": [{"decimal": str(index)} for index in range(count)],
+        }
+
+    source._request = fake_request  # type: ignore[method-assign]
+
+    entropy = asyncio.run(source.get_bytes(4))
+
+    assert entropy == bytes([0, 1, 2, 3])
+    assert seen_bodies == [
+        {
+            "bits_per_block": 8,
+            "number_of_blocks": 1000,
+            "format": "decimal",
+            "encoding": "raw",
+        }
+    ]
+
+
+def test_outshift_source_chunks_requests_to_provider_limit() -> None:
+    source = OutshiftSource(api_key="test-key")
+    calls: list[int] = []
+
+    async def fake_fetch_bytes(n: int) -> bytes:
+        calls.append(n)
+        return bytes([0xAB]) * n
+
+    source._fetch_bytes = fake_fetch_bytes  # type: ignore[method-assign]
+
+    entropy = asyncio.run(source.get_bytes(1200))
+
+    assert len(entropy) == 1200
+    assert calls == [1000, 1000]
+
+
+def test_outshift_source_accepts_official_env_var_name(monkeypatch) -> None:
+    monkeypatch.delenv("OUTSHIFT_API_KEY", raising=False)
+    monkeypatch.setenv("OUTSHIFT_QRNG_API_KEY", "official-name-key")
+
+    source = OutshiftSource()
+
+    assert source._api_key == "official-name-key"

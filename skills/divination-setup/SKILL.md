@@ -33,7 +33,9 @@ source inspection.
 
 - keep going unless a real user choice is required
 - prefer fixing environment issues directly over telling the user to do it
+- prefer `uv tool install` / `uv tool upgrade` when `uv` is available
 - keep `csprng` as the default unless the user explicitly chooses QRNG or local hardware
+- prefer `outshift` over `anu` when the user wants a remote QRNG and has no strong preference
 - prefer `qcicada` over `openentropy` when the user wants the strongest explicit local quantum path
 - never imply quantum entropy when the configured source is still `csprng`
 
@@ -54,6 +56,13 @@ python3 scripts/run_opendivination.py --check
 ```
 
 2. Install or update the CLI
+
+Preferred path with `uv`:
+
+```bash
+uv tool install opendivination
+uv tool upgrade opendivination
+```
 
 Published CLI:
 
@@ -106,7 +115,7 @@ Structured setup:
 ```bash
 python3 scripts/run_opendivination.py setup --json
 python3 scripts/run_opendivination.py setup --source-profile computer --json
-python3 scripts/run_opendivination.py setup --source-profile remote_quantum --qrng-provider anu --api-key YOUR_KEY --json
+python3 scripts/run_opendivination.py setup --source-profile remote_quantum --qrng-provider outshift --api-key YOUR_KEY --json
 python3 scripts/run_opendivination.py setup --source-profile local_hardware --hardware-source qcicada --json
 ```
 
@@ -118,9 +127,14 @@ Ask the user which path they want:
 
 For remote QRNG:
 
-- ask whether they want `anu` or `outshift`
-- ask for the API key when required
-- store it through `setup`
+- prefer `outshift` unless the user explicitly wants `anu`
+- if they need a key, tell them to go to `https://qrng.outshift.com/`, create an account, and get an API key
+- simplest secret-handling path: ask them to set `OUTSHIFT_QRNG_API_KEY` and tell you when it is ready
+- if they prefer to paste the key directly, store it through `setup`
+
+Use a short prompt for the env-var path:
+
+- `Set OUTSHIFT_QRNG_API_KEY in your shell and tell me when it's ready.`
 
 For local hardware:
 

@@ -1,4 +1,4 @@
-"""OpenDivination — Quantum-entropy oracle SDK for divination systems."""
+"""OpenDivination — oracle SDK and CLI for human/LLM divination."""
 
 from opendivination.config import (
     OpenDivinationConfig,
