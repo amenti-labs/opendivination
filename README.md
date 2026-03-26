@@ -17,10 +17,6 @@
   <img src="https://img.shields.io/badge/python-3.10%20%7C%203.11%20%7C%203.12%20%7C%203.13%20%7C%203.14-blue" alt="Python versions">
 </p>
 
-<p align="center">
-  <img src="assets/hero.gif" alt="OpenDivination terminal demo" width="900">
-</p>
-
 OpenDivination is an experiment in what happens when LLMs get divination tools.
 
 It is built for two use cases:
