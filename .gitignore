@@ -133,4 +133,5 @@ dmypy.json
 # Project-specific
 /tmp/
 /adhoc/
-.sisyphus/evidence/
+.sisyphus/
+.sisyphous/
